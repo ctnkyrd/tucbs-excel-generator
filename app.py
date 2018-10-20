@@ -21,7 +21,11 @@ for i in kurum:
     kurumKatmanalri = cnn.getlistofdata('x_ek_2_tucbs_veri_katmani','*','geodurum is true and ek_2='+str(ek2_oid))
     for katman in kurumKatmanalri:
         newKurum.add_veri_katmani(katman)
-        print katman[cvdict['katman_adi']]
-
-    # c = CografiVeriFormu(a.bakanlik, a.adi, a.birim)
-    # c.createExcelFile()
+        #pylint: disable-msg=too-many-arguments
+        cvf = CografiVeriFormu(newKurum.bakanlik, newKurum.adi, newKurum.birim, katman[cvdict['tucbs_katmani']], katman[cvdict['katman_adi']], 
+                            katman[cvdict['katman_durumu']], katman[cvdict['tucbs_uygunluk']], katman[cvdict['veri_turu']], katman[cvdict['veri_tipi']],
+                            katman[cvdict['veri_adedi']], katman[cvdict['veri_formati']], katman[cvdict['projeksiyon']], katman[cvdict['datum']], 
+                            katman[cvdict['olcek_duzey']], katman[cvdict['veri_guncelleme_periyod']], katman[cvdict['son_veri_guncelleme_tarih']], 
+                            katman[cvdict['veri_envanteri_aciklama']])
+        print cvf.katman_adi
+        cvf.createExcelFile()

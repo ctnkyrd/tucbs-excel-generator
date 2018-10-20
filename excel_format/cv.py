@@ -1,11 +1,53 @@
 # -*- coding: utf-8 -*-
 import xlsxwriter
+from pgget import Connection
+cnn = Connection()
 
 class CografiVeriFormu:
-    def __init__(self, bakanlik, adi, birim, inspire_veri_temasi):
+    def __init__(self, bakanlik, adi, birim, tucbs_katmani, katman_adi, katman_durumu, tucbs_uygunluk, veri_turu, veri_tipi, veri_adedi, veri_formati, projeksiyon,
+                    datum, olcek_duzey, veri_guncelleme_periyod, son_veri_guncelleme_tarih, veri_envanteri_aciklama):
         self.bakanlik = bakanlik
         self.adi = adi
         self.birim = birim
+
+        # tucbs temasinin kod tablosundan çekilmesi
+        if tucbs_katmani is not None:
+            self.tucbs_veri_temasi = cnn.getsinglekoddata('kod_tucbs_tema', 'tema_adi', 'objectid='+str(tucbs_katmani))
+        else:
+            self.tucbs_veri_temasi = None
+        self.katman_adi = katman_adi
+        self.katman_durumu = katman_durumu
+        self.tucbs_uygunluk = tucbs_uygunluk
+
+        # veri envanteri
+        if veri_turu is not None:
+            self.veri_turu = cnn.getsinglekoddata('kod_ek_2_veri_turu', 'kod', 'objectid='+str(veri_turu))
+        else:
+            self.veri_turu = None
+        if veri_tipi is not None:
+            self.veri_tipi = cnn.getsinglekoddata('kod_ek_2_veri_tipi', 'kod', 'objectid='+str(veri_tipi))
+        else:
+            self.veri_tipi = None 
+        self.veri_adedi = veri_adedi
+        if veri_formati is not None:
+            self.veri_formati = cnn.getsinglekoddata('kod_ek_2_veri_formati', 'kod', 'objectid='+str(veri_formati))
+        else:
+            self.veri_formati = None
+        if projeksiyon is not None:
+            self.projeksiyon = cnn.getsinglekoddata('kod_ek_2_projeksiyon', 'kod', 'objectid='+str(projeksiyon))
+        else:
+            self.projeksiyon = None
+        if datum is not None:
+            self.datum = cnn.getsinglekoddata('kod_ek_2_datum', 'kod', 'objectid='+str(datum))
+        else:
+            self.datum = None
+        self.olcek_duzey = olcek_duzey
+        self.veri_guncelleme_periyod = veri_guncelleme_periyod
+        self.son_veri_guncelleme_tarih = son_veri_guncelleme_tarih
+        self.veri_envanteri_aciklama = veri_envanteri_aciklama
+        
+
+        
     
     def createExcelFile(self):
         wb = xlsxwriter.Workbook(r'created_excels\demo.xlsx')
