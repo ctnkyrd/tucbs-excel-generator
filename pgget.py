@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 import psycopg2 as pg
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.env')
 
 class Connection:
     def __init__(self):
-        self.cs = "dbname=%s user=%s password=%s host=%s port=%s" % ('tucbsdata','postgres','kalman','localhost','5432')
+        self.cs = "dbname=%s user=%s password=%s host=%s port=%s" % (config.get('DB','DB_DATABASE'),config.get('DB','DB_USERNAME'),config.get('DB','DB_PASSWORD'),config.get('DB','DB_HOST'),config.get('DB','DB_PORT'))
 
     def executeSql(self, query):
         conn = pg.connect(self.cs)
