@@ -2,7 +2,7 @@
 import xlsxwriter
 
 class CografiVeriFormu:
-    def __init__(self, bakanlik, adi, birim):
+    def __init__(self, bakanlik, adi, birim, inspire_veri_temasi):
         self.bakanlik = bakanlik
         self.adi = adi
         self.birim = birim
