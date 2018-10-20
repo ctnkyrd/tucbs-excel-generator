@@ -34,7 +34,10 @@ class Kurum:
         # get ek2 information objectid and birim
         self.ek2 = cnn.getRowOfData('ek_2_cografi_veri_analizi','objectid, birim','geodurum is true and kurum='+str(self.oid))
         self.ek2_oid = self.ek2[0]
-        self.birim = self.ek2[1].decode('utf-8')
+        if self.ek2[1] is not None:
+            self.birim = self.ek2[1].decode('utf-8')
+        else:
+            self.birim = None
 
     def add_veri_katmani(self, katman):
         if not katman in self.verikatmani:

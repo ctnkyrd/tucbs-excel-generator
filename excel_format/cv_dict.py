@@ -9,7 +9,7 @@ dict_veri_katmani = {
     'veri_turu'                 : 8,
     'veri_tipi'                 : 9,
     'veri_adedi'                : 10,
-    'veri_formati'             : 11,
+    'veri_formati'              : 11,
     'projeksiyon'               : 62,
     'datum'                     : 63,
     'olcek_duzey'               : 13,
@@ -17,6 +17,8 @@ dict_veri_katmani = {
     'son_veri_guncelleme_tarih' : 21,
     'veri_envanteri_aciklama'   : 49,
     'tucbs_katmani'             : 53,
-    'inspire_katman'            : 54,    
+    'inspire_katmani'           : 54,    
     'katman_aciklama'           : 61,
+    'tucbs_tema_harici'         : 5,
+    'inspire_uygunluk'          : 6,
 }
