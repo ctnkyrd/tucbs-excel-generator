@@ -5,7 +5,8 @@ cnn = Connection()
 
 class CografiVeriFormu:
     def __init__(self, bakanlik, adi, birim, tucbs_katmani, katman_adi, katman_durumu, tucbs_uygunluk, veri_turu, veri_tipi, veri_adedi, veri_formati, projeksiyon,
-                    datum, olcek_duzey, veri_guncelleme_periyod, son_veri_guncelleme_tarih, veri_envanteri_aciklama, tucbs_tema_harici, inspire_katmani, inspire_uygunluk):
+                    datum, olcek_duzey, veri_guncelleme_periyod, son_veri_guncelleme_tarih, veri_envanteri_aciklama, tucbs_tema_harici, inspire_katmani, inspire_uygunluk,
+                    katman_aciklama):
         self.bakanlik = bakanlik
         self.adi = adi
         self.birim = birim
@@ -52,7 +53,14 @@ class CografiVeriFormu:
         else:
             self.inspire_katmani = None
         self.inspire_uygunluk = inspire_uygunluk
-        
+
+        if self.tucbs_veri_temasi is None and self.inspire_katmani is not None:
+            self.tucbs_tema_harici = True
+        elif self.tucbs_veri_temasi is not None and self.inspire_katmani is None:
+            self.tucbs_tema_harici = False
+        else:
+            self.tucbs_tema_harici = False
+        self.katman_aciklama = katman_aciklama        
         
     
     def createExcelFile(self):
@@ -80,6 +88,15 @@ class CografiVeriFormu:
         ws.set_column('T:T', 18.57)
         ws.set_column('U:U', 16.23)
         ws.set_row(5, 21)
+        ws.set_row(4, 5)
+        ws.set_row(14, 5)
+        ws.set_row(18, 25)
+        ws.set_row(17, 21)
+        ws.set_row(20, 24.75)
+        ws.set_row(21, 14.25)
+        ws.set_row(22, 75)
+
+
 
         merge_header_format = wb.add_format()
         merge_header_format.set_font_size(16)
@@ -111,12 +128,22 @@ class CografiVeriFormu:
         f_data_right.set_font_color('red')
         f_data_right.set_align('right')
         f_data_right.set_border()
+        f_data_right.set_text_wrap()
 
         f_data_left = wb.add_format()
         f_data_left.set_bold()
         f_data_left.set_font_color('red')
         f_data_left.set_align('left')
         f_data_left.set_border()
+        f_data_left.set_text_wrap()
+
+        f_data_center = wb.add_format()
+        f_data_center.set_bold()
+        f_data_center.set_font_color('red')
+        f_data_center.set_align('center')
+        f_data_center.set_align('vcenter')
+        f_data_center.set_border()
+        f_data_center.set_text_wrap()
 
         f_red = wb.add_format()
         f_red.set_font_color('red')
@@ -129,12 +156,27 @@ class CografiVeriFormu:
         f_border_center = wb.add_format()
         f_border_center.set_border()
         f_border_center.set_align('center')
-
+        f_border_center.set_align('vcenter')
+        f_border_center.set_text_wrap()
 
 
         f_data_emty = wb.add_format()
         f_data_emty.set_bg_color('yellow')
         f_data_emty.set_border()
+
+        f_comment = wb.add_format()
+        f_comment.set_border(),f_border_center
+        f_comment.set_color('gray')
+        f_comment.set_italic()
+        f_comment.set_font_size(9)
+        f_comment.set_align('right')
+
+        f_comment_left = wb.add_format()
+        f_comment_left.set_border()
+        f_comment_left.set_color('gray')
+        f_comment_left.set_italic()
+        f_comment_left.set_font_size(9)
+        
 
         ws.insert_image('A1', r"logo\csb.jpg", {'x_offset': 20,'y_offset': 7,'x_scale': 1.6})
         ws.merge_range('A1:D4','',merge_header_format)
@@ -148,7 +190,7 @@ class CografiVeriFormu:
         ws.merge_range('T1:U4', '',merge_small_header)
         ws.merge_range('A5:S5', '',merge_small_header)
         ws.merge_range('A6:F6', u'Genel Bilgiler',merge_header_format2)
-        ws.merge_range('G6:U6', '',merge_small_header)
+        ws.merge_range('G6:U6', u'TUCBS Analiz Portalı üzerinden doldurulacak',f_comment)
         ws.merge_range('G13:U14', '',merge_small_header)
         ws.merge_range('A15:S15', '',merge_small_header)
 
@@ -165,43 +207,124 @@ class CografiVeriFormu:
         ws.merge_range('G7:U7', self.bakanlik, f_data_right)
         ws.merge_range('G8:U8', self.adi, f_data_right)
         ws.merge_range('G9:U9', self.birim, f_data_right)
-        if self.tucbs_veri_temasi is not None:
-            ws.merge_range('G10:U10', self.tucbs_veri_temasi.decode('utf-8'), f_data_right)
-        else:
-            ws.merge_range('G10:U10', '', f_data_emty)
-
+        
         ws.merge_range('G11:Q11', u'Veri Katman Adı', merge_small_header2)
         ws.merge_range('R11:S11', u'Veri Katman Durumu', merge_small_header)
         ws.merge_range('T11:U11', u'TUCBS Standartlarına Uygunluk', merge_small_header)
-        ws.merge_range('G17:M17', u'Katmanın INSPIRE\' a Uygun Tema Adı', merge_small_header2)
-        ws.merge_range('G18:M18', u'Katman INSPIRE Standartlarına Uygun Mu?', merge_small_header2)
+        ws.merge_range('G17:M17', u'Katmanın INSPIRE\' a Uygun Tema Adı', merge_small_header)
+        ws.merge_range('G18:M18', u'Katman INSPIRE Standartlarına Uygun Mu?', merge_small_header)
 
+        # veri envanteri
+        ws.merge_range('A20:U20', u'', merge_small_header)
+        ws.write_rich_string('A20', merge_header_format2, u'Veri Envanteri', f_comment_left, u'  (Her Bir Katman İçin Kuruma Sorulacaklar)',f_border)
+        ws.merge_range('A21:C22', u'',f_border_center)
+        ws.merge_range('D21:F22', u'',f_border_center)
+        ws.merge_range('G21:I22', u'',f_border_center)
+        ws.merge_range('J21:K22', u'',f_border_center)
+        ws.merge_range('L21:P22', u'',f_border_center)
+        ws.merge_range('Q21:R22', u'',f_border_center)
+        ws.merge_range('S21:S22', u'',f_border_center)
+        ws.merge_range('T21:T22', u'',f_border_center)
+        ws.merge_range('U21:U22', u'',f_border_center)
+        ws.write_rich_string('A21', merge_small_header, u'Katman Adı', f_border_center)
+        ws.write_rich_string('D21', merge_small_header, u'Veri Türü', f_comment, u' (Dijital Veri / Basılı Veri)', f_border_center)
+        ws.write_rich_string('G21', merge_small_header, u'Veri Tipi', f_comment, u' (Coğrafi Veri / Sözel Veri)', f_border_center)
+        ws.write_rich_string('J21', merge_small_header, u'Veri Adetleri', f_border_center)
+        ws.write_rich_string('L21', merge_small_header, u'Veri Formatı', f_border_center)
+        ws.write_rich_string('Q21', merge_small_header, u'Projeksiyon/Datum Bilgisi', f_border_center)
+        ws.write_rich_string('S21', merge_small_header, u'Ölçek/Düzey/Çözünürlük', f_border_center)
+        ws.write_rich_string('T21', merge_small_header, u'Veri Güncelleme Durumu', f_comment, u' (Güncelleme Sıklığı)', f_border_center)
+        ws.write_rich_string('U21', merge_small_header, u'Son Veri Güncelleme Tarihi', f_border_center)
 
-        ws.merge_range('G12:Q12', self.katman_adi.decode('utf-8'), f_data_left)
-
-        if self.katman_durumu is True:
-            ws.write_rich_string('R12', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',f_border)
-            ws.write('S12', u'Yok( )',merge_small_header2) 
+        # veri envanteri loaders
+        ws.merge_range('A23:C23',self.katman_adi.decode('utf-8'), f_data_center)
+        # veri turu
+        if self.veri_turu is not None:
+            ws.merge_range('D23:F23',self.veri_turu.decode('utf-8'), f_data_center)
         else:
-            ws.write('R12', u'Var( )',merge_small_header2) 
-            ws.write_rich_string('S12', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',f_border)
-        
-        if self.tucbs_uygunluk is True:
-            ws.write_rich_string('T12', merge_small_header2,u'Uygun(', f_red, 'X', merge_small_header2,')',f_border)
-            ws.write('U12', u'Uygun Değil( )',merge_small_header2) 
+            ws.merge_range('D23:F23', u'', f_data_emty)
+        # veri tipi
+        if self.veri_tipi is not None:
+            ws.merge_range('G23:I23',self.veri_tipi.decode('utf-8'), f_data_center)
         else:
-            ws.write('T12', u'Uygun( )',merge_small_header2) 
-            ws.write_rich_string('U12', merge_small_header2,u'Uygun Değil(', f_red, 'X', merge_small_header2,')',f_border)
+            ws.merge_range('G23:I23', u'', f_data_emty)
+        # veri adetleri
+        if self.veri_adedi is not None:
+            ws.merge_range('J23:K23',self.veri_adedi.decode('utf-8'), f_data_center)
+        else:
+            ws.merge_range('J23:K23', u'', f_data_emty)
+        # veri formati
+        if self.veri_formati is not None:
+            ws.merge_range('L23:P23',self.veri_formati.decode('utf-8'), f_data_center)
+        else:
+            ws.merge_range('L23:P23', u'', f_data_emty)
+        # projeksyion datum
+        if self.projeksiyon is not None or self.datum is not None:
+            ws.merge_range('Q23:R23',self.projeksiyon.decode('utf-8') + " " + self.datum.decode('utf-8'), f_data_center)
+        else:
+            ws.merge_range('Q23:R23', u'', f_data_emty)
+        # ölçek düzey çözünürlük
+        if self.olcek_duzey is not None:
+            ws.write('S23',self.olcek_duzey.decode('utf-8'), f_data_center)
+        else:
+            ws.write('S23', u'', f_data_emty)
+        # veri güncelleme
+        if self.veri_guncelleme_periyod is not None:
+            ws.write('T23',self.veri_guncelleme_periyod.decode('utf-8'), f_data_center)
+        else:
+            ws.write('T23', u'', f_data_emty)
+        # son veri güncelleme tarihi
+        if self.son_veri_guncelleme_tarih is not None:
+            ws.write('U23',self.son_veri_guncelleme_tarih.decode('utf-8'), f_data_center)
+        else:
+            ws.write('U23', u'', f_data_emty)
+
+        # katman aciklama
+        if self.katman_aciklama is not None:
+            ws.merge_range('A19:U19', self.katman_aciklama.decode('utf-8'), f_data_left)
+        else:
+            ws.merge_range('A19:U19', u'', merge_small_header2)
+            ws.set_row(18, 5)
+
+
 
         ws.merge_range('G16:J16', u'Var( )', merge_small_header2)
         ws.merge_range('K16:M16', u'Yok( )', merge_small_header2)
-        ws.merge_range('N18:U18', u'Evet ( )    Hayır( )', merge_small_header2)
-        ws.merge_range('N16:U16', u'', merge_small_header2)
-        ws.merge_range('N17:U17', u'', merge_small_header2)
+        ws.merge_range('N18:U18', u'Evet ( )    Hayır( )', merge_small_header)
 
 
-        if self.tucbs_tema_harici is True:
-            if self.katman_durumu is True:
+        if self.tucbs_tema_harici is False:
+            ws.merge_range('N16:U16', u'', merge_small_header2)
+            ws.merge_range('N17:U17', u'', merge_small_header2)
+            ws.merge_range('G12:Q12', self.katman_adi.decode('utf-8'), f_data_left)
+            if self.tucbs_veri_temasi is not None:
+                ws.merge_range('G10:U10', self.tucbs_veri_temasi.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('G10:U10', '', f_data_emty)
+
+            if self.katman_durumu:
+                ws.write_rich_string('R12', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',f_border)
+                ws.write('S12', u'Yok( )',merge_small_header2) 
+            else:
+                ws.write('R12', u'Var( )',merge_small_header2) 
+                ws.write_rich_string('S12', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',f_border)
+            
+            if self.tucbs_uygunluk:
+                ws.write_rich_string('T12', merge_small_header2,u'Uygun(', f_red, 'X', merge_small_header2,')',f_border)
+                ws.write('U12', u'Uygun Değil( )',merge_small_header2) 
+            else:
+                ws.write('T12', u'Uygun( )',merge_small_header2) 
+                ws.write_rich_string('U12', merge_small_header2,u'Uygun Değil(', f_red, 'X', merge_small_header2,')',f_border)
+        else:
+            ws.merge_range('G10:U10', u'', merge_small_header2)
+            ws.write('R12', u'Var( )',merge_small_header2) 
+            ws.write('S12', u'Yok( )',merge_small_header2) 
+            ws.write('T12', u'Uygun( )',merge_small_header2) 
+            ws.write('U12', u'Uygun Değil( )',merge_small_header2) 
+            ws.merge_range('G12:Q12', u'', merge_small_header2)
+
+        if self.tucbs_tema_harici:
+            if self.katman_durumu:
                 ws.write_rich_string('G16', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',f_border)
                 ws.write('K16', u'Yok( )',merge_small_header2) 
             else:
@@ -215,7 +338,7 @@ class CografiVeriFormu:
             else:
                 ws.merge_range('N17:U17', '', f_data_emty)
             
-            if self.inspire_uygunluk is True:
+            if self.inspire_uygunluk:
                 ws.write_rich_string('N18', merge_small_header2,u'Evet (', f_red, 'X', merge_small_header2,')    Hayır( )',f_border_center)
             else: 
                 ws.write_rich_string('N18', merge_small_header2,u'Evet ( )     Hayır (', f_red, 'X', merge_small_header2,')',f_border_center)
