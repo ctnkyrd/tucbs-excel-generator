@@ -58,13 +58,13 @@ data_format_c = workbook.add_format({
 data_format_c.set_text_wrap()
 
 # Baslik
-worksheet.insert_image('A1', r"D:\Github\tucbs-excel-generator\logo\csb.jpg", {'x_offset': 35,'y_offset': 7,'x_scale': 1.4})
+worksheet.insert_image('A1', r"logo\csb.jpg", {'x_offset': 35,'y_offset': 7,'x_scale': 1.4})
 worksheet.merge_range('A1:A4', '', merge_format)
 worksheet.merge_range('B1:D4', 'Mevzuat Analiz Formu', main_header_format)
 worksheet.write('E1', u'Revizyon Numarası', merge_format)
 worksheet.write('E3', 'Revizyon Tarihi', merge_format)
 worksheet.write('E4', '', merge_format)
-worksheet.insert_image('F1', r"D:\Github\tucbs-excel-generator\logo\tucbs2.jpg", {'x_offset': 6,'y_offset': 7,'x_scale': 0.44,'y_scale': 0.44})
+worksheet.insert_image('F1', r"logo\tucbs2.jpg", {'x_offset': 6,'y_offset': 7,'x_scale': 0.44,'y_scale': 0.44})
 worksheet.merge_range('F1:F4', '', merge_format)
 worksheet.merge_range('A5:F5', '')
 
