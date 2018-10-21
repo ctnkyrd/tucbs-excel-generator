@@ -85,7 +85,7 @@ class CografiVeriFormu:
         else:
             self.vk_fazlalik_yeni = None
         if vk_eksizlik_yeni is not None:
-            self.vk_eksizlik_yeni = cnn.getsinglekoddata('kod_ek_2_verinin_eksizligi', 'kod', 'objectid='+str(vk_eksizlik_yeni))
+            self.vk_eksizlik_yeni = cnn.getsinglekoddata('kod_ek_2_verinin_eksiksizligi', 'kod', 'objectid='+str(vk_eksizlik_yeni))
         else:
             self.vk_eksizlik_yeni = None
         self.vk_lc_kavramsal_tutarlilik = vk_lc_kavramsal_tutarlilik
@@ -116,7 +116,7 @@ class CografiVeriFormu:
         if vk_konumsal_bagil_dogruluk_yeni is not None:
             self.vk_konumsal_bagil_dogruluk_yeni = cnn.getsinglekoddata('kod_ek_2_konumsal_dogruluk', 'kod', 'objectid='+str(vk_konumsal_bagil_dogruluk_yeni))
         else:
-            self.vk_konumsal_mutlak_dogruluk_yeni = None
+            self.vk_konumsal_bagil_dogruluk_yeni = None
         
         if vk_konumsal_raster_veri_konum_yeni is not None:
             self.vk_konumsal_raster_veri_konum_yeni = cnn.getsinglekoddata('kod_ek_2_konumsal_dogruluk', 'kod', 'objectid='+str(vk_konumsal_raster_veri_konum_yeni))
@@ -152,7 +152,7 @@ class CografiVeriFormu:
             self.vk_tematik_nicel_yeni = None
 
         if vk_tematik_nicel_olmayan_yeni is not None:
-            self.vk_tematik_nicel_olmayan_yeni = cnn.getsinglekoddata('kod_ek_2_nicel_olmayan_nitelik_bilgileri_dogruluk', 'kod', 'objectid='+str(vk_tematik_nicel_olmayan_yeni))
+            self.vk_tematik_nicel_olmayan_yeni = cnn.getsinglekoddata('kod_ek_2_nicel_olmayan_oznitelik_bilgileri_dogruluk', 'kod', 'objectid='+str(vk_tematik_nicel_olmayan_yeni))
         else:
             self.vk_tematik_nicel_olmayan_yeni = None
         self.vk_aciklama = vk_aciklama
@@ -186,13 +186,19 @@ class CografiVeriFormu:
             ws.set_row(5, 21)
             ws.set_row(4, 5)
             ws.set_row(14, 5)
-            ws.set_row(18, 25)
+            ws.set_row(18, 30)
             ws.set_row(17, 21)
             ws.set_row(20, 24.75)
             ws.set_row(21, 14.25)
             ws.set_row(22, 75)
             ws.set_row(24, 5)
             ws.set_row(25, 21)
+            ws.set_row(28, 5)
+            ws.set_row(29, 21)
+            ws.set_row(53, 20)
+            ws.set_row(54, 20)
+            ws.set_row(55, 5)
+            ws.set_row(56, 21)
 
             merge_header_format = wb.add_format()
             merge_header_format.set_font_size(16)
@@ -206,7 +212,6 @@ class CografiVeriFormu:
             merge_header_format2.set_bold()
             merge_header_format2.set_border()
 
-
             merge_small_header = wb.add_format()
             merge_small_header.set_font_size(11)
             merge_small_header.set_bold()
@@ -214,6 +219,19 @@ class CografiVeriFormu:
             merge_small_header.set_align('center')
             merge_small_header.set_align('vcenter')
             merge_small_header.set_text_wrap()
+
+            merge_small_header_left = wb.add_format()
+            merge_small_header_left.set_font_size(11)
+            merge_small_header_left.set_bold()
+            merge_small_header_left.set_border()
+            merge_small_header_left.set_align('left')
+            merge_small_header_left.set_align('vcenter')
+            merge_small_header_left.set_text_wrap()
+
+            xsmall_header_right = wb.add_format()
+            xsmall_header_right.set_font_size(10)
+            xsmall_header_right.set_border()
+            xsmall_header_right.set_align('right')
 
             merge_small_header2 = wb.add_format()
             merge_small_header2.set_font_size(11)
@@ -378,7 +396,7 @@ class CografiVeriFormu:
 
             # katman aciklama
             if self.veri_envanteri_aciklama is not None:
-                ws.set_row(23, 25)
+                ws.set_row(23, 30)
                 ws.merge_range('A24:U24', self.veri_envanteri_aciklama.decode('utf-8'), f_data_left)
             else:
                 ws.merge_range('A24:U24', u'', merge_small_header2)
@@ -425,6 +443,174 @@ class CografiVeriFormu:
             else:
                 ws.merge_range('A19:U19', u'', f_data_left)
                 ws.set_row(18, 5)
+
+            # veri kalitesi gereksinimleri
+            ws.merge_range('A29:U29', u'', merge_small_header2)
+            ws.merge_range('A30:U30', u'', merge_small_header2)
+            ws.write_rich_string('A30', merge_header_format2, u'Veri Kalitesi Gereksinimleri', f_comment_left, u' (Her bir katman için sorulacaktır)', f_border)
+            ws.merge_range('A31:G31', u'Amaç', merge_small_header2)
+            ws.merge_range('A32:G32', u'Kullanım', merge_small_header2)
+            ws.merge_range('A33:G33', u'Verinin Kökeni', merge_small_header2)
+            
+            ws.merge_range('A34:G34', u'Verinin Eksiksizliği (Completeness)', merge_small_header2)
+            ws.merge_range('A35:G35', u'Fazlalık', xsmall_header_right)
+            ws.merge_range('A36:G36', u'Eksiklik', xsmall_header_right)
+            
+            ws.merge_range('A37:G37', u'Mantıksal Tutarlılık (Logical Consistency)', merge_small_header2)
+            ws.merge_range('A38:G38', u'Kavramsal Tutarlılık', xsmall_header_right)
+            ws.merge_range('A39:G39', u'Tanım Kümesi Tutarlılığı', xsmall_header_right)
+            ws.merge_range('A40:G40', u'Format Tutarlılığı', xsmall_header_right)
+            ws.merge_range('A41:G41', u'Topoloji Tutarlılığı', xsmall_header_right)
+
+            ws.merge_range('A42:G42', u'Konumsal Doğruluk (Positional Accuracy)', merge_small_header2)
+            ws.merge_range('A43:G43', u'Mutlak Doğruluk', xsmall_header_right)
+            ws.merge_range('A44:G44', u'Bağıl Doğruluk', xsmall_header_right)
+            ws.merge_range('A45:G45', u'Raster Veri Konum Doğruluğu', xsmall_header_right)
+
+            ws.merge_range('A46:G46', u'Zamansal Doğruluk (Temporal Accuracy)', merge_small_header2)
+            ws.merge_range('A47:G47', u'İlgili Zamandaki Doğruluk', xsmall_header_right)
+            ws.merge_range('A48:G48', u'Zamansal Tutarlılık', xsmall_header_right)
+            ws.merge_range('A49:G49', u'Zamansal Geçerlilik', xsmall_header_right)
+
+            ws.merge_range('A50:G50', u'Tematik Doğruluk (Thematic Accuracy)', merge_small_header2)
+            ws.merge_range('A51:G51', u'Sınıflandırma Doğruluğu', xsmall_header_right)
+            ws.merge_range('A52:G52', u'Nicel öznitelik bilgilerinin doğruluğu', xsmall_header_right)
+            ws.merge_range('A53:G53', u'Nicel olmayan öznitelik bilgilerinin doğruluğu', xsmall_header_right)
+            ws.merge_range('A54:G55', u'Açıklama', merge_small_header_left)
+
+
+            if self.vk_amac is not None:
+                ws.merge_range('H31:U31', self.vk_amac.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H31:U31', u'', f_data_emty)
+
+            if self.vk_kullanim is not None:
+                ws.merge_range('H32:U32', self.vk_kullanim.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H32:U32', u'', f_data_emty)
+            
+            if self.vk_kokeni is not None:
+                ws.merge_range('H33:U33', self.vk_kokeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H33:U33', u'', f_data_emty)
+
+            if self.vk_copleteness_fazlalik is not None:
+                ws.merge_range('H34:U34', self.vk_copleteness_fazlalik.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H34:U34', u'', f_data_emty)
+            
+            if self.vk_fazlalik_yeni is not None:
+                ws.merge_range('H35:U35', self.vk_fazlalik_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H35:U35', u'', f_data_emty)
+            
+            if self.vk_eksizlik_yeni is not None:
+                ws.merge_range('H36:U36', self.vk_eksizlik_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H36:U36', u'', f_data_emty)
+
+            if self.vk_lc_kavramsal_tutarlilik is not None:
+                ws.merge_range('H37:U37', self.vk_lc_kavramsal_tutarlilik.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H37:U37', u'', f_data_emty)
+
+            if self.vk_kavramsal_yeni is not None:
+                ws.merge_range('H38:U38', self.vk_kavramsal_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H38:U38', u'', f_data_emty)
+
+            if self.vk_tanim_kumesi_yeni is not None:
+                ws.merge_range('H39:U39', self.vk_tanim_kumesi_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H39:U39', u'', f_data_emty)
+
+            if self.vk_format_tutarlilik_yeni is not None:
+                ws.merge_range('H40:U40', self.vk_format_tutarlilik_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H40:U40', u'', f_data_emty)
+            
+            if self.vk_topoloji_tutarlilik_yeni is not None:
+                ws.merge_range('H41:U41', self.vk_topoloji_tutarlilik_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H41:U41', u'', f_data_emty)
+
+            if self.vk_pa_mutlak_dogruluk is not None:
+                ws.merge_range('H42:U42', self.vk_pa_mutlak_dogruluk.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H42:U42', u'', f_data_emty)
+            
+            if self.vk_konumsal_mutlak_dogruluk_yeni is not None:
+                ws.merge_range('H43:U43', self.vk_konumsal_mutlak_dogruluk_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H43:U43', u'', f_data_emty)
+            
+            if self.vk_konumsal_bagil_dogruluk_yeni is not None:
+                ws.merge_range('H44:U44', self.vk_konumsal_bagil_dogruluk_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H44:U44', u'', f_data_emty)
+            
+            if self.vk_konumsal_raster_veri_konum_yeni is not None:
+                ws.merge_range('H45:U45', self.vk_konumsal_raster_veri_konum_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H45:U45', u'', f_data_emty)
+
+            if self.vk_ta_ilgili_zamandaki_dogruluk is not None:
+                ws.merge_range('H46:U46', self.vk_ta_ilgili_zamandaki_dogruluk.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H46:U46', u'', f_data_emty)
+
+            if self.vk_zamansal_ilgili_yeni is not None:
+                ws.merge_range('H47:U47', self.vk_zamansal_ilgili_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H47:U47', u'', f_data_emty)
+
+            if self.vk_zamansal_tutarlilik_yeni is not None:
+                ws.merge_range('H48:U48', self.vk_zamansal_tutarlilik_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H48:U48', u'', f_data_emty)
+            
+            if self.vk_zamansal_gecerlilik_yeni is not None:
+                ws.merge_range('H49:U49', self.vk_zamansal_gecerlilik_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H49:U49', u'', f_data_emty)
+
+            if self.vk_tema_siniflandirma_dogrulugu is not None:
+                ws.merge_range('H50:U50', self.vk_tema_siniflandirma_dogrulugu.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H50:U50', u'', f_data_emty)
+
+            if self.vk_tematik_siniflandirma_yeni is not None:
+                ws.merge_range('H51:U51', self.vk_tematik_siniflandirma_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H51:U51', u'', f_data_emty)
+
+            if self.vk_tematik_nicel_yeni is not None:
+                ws.merge_range('H52:U52', self.vk_tematik_nicel_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H52:U52', u'', f_data_emty)
+
+            if self.vk_tematik_nicel_olmayan_yeni is not None:
+                ws.merge_range('H53:U53', self.vk_tematik_nicel_olmayan_yeni.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H53:U53', u'', f_data_emty)
+            
+            if self.vk_aciklama is not None:
+                ws.merge_range('H54:U55', self.vk_aciklama.decode('utf-8'), f_data_right)
+            else:
+                ws.merge_range('H54:U55', u'', f_data_emty)
+
+            # çalışma grubu
+            ws.merge_range('A57:U57', u'Çalışma Grubu', merge_header_format2)
+            ws.merge_range('A58:F58', u'Grup Adı', merge_small_header2)
+            ws.merge_range('A59:F59', u'Adı Soyadı', merge_small_header2)
+            ws.merge_range('A60:F60', u'Görevi', merge_small_header2)
+            ws.merge_range('A61:F61', u'Tarih', merge_small_header2)
+
+            ws.merge_range('G58:U58', u'(Analiz Grubu Adı)', f_comment)
+            ws.merge_range('G59:U59', u'(Analizş Gerçekleştiren Proje Uzmanı)', f_comment)
+            ws.merge_range('G60:U60', u'(Proje Uzmanı Görevi)', f_comment)
+            ws.merge_range('G61:U61', u'(Analiz Tarihi)', f_comment)
+
 
 
             if self.tucbs_tema_harici is False:
