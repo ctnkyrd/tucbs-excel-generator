@@ -285,7 +285,7 @@ class CografiVeriFormu:
                 ws.write('T23', u'', f_data_emty)
             # son veri güncelleme tarihi
             if self.son_veri_guncelleme_tarih is not None:
-                ws.write('U23',self.son_veri_guncelleme_tarih.strftime('%Y-%m-%d'), f_data_center)
+                ws.write('U23',self.son_veri_guncelleme_tarih.strftime('%d.%m.%Y'), f_data_center)
             else:
                 ws.write('U23', u'', f_data_emty)
 
