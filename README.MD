@@ -1,8 +1,10 @@
-## create a file named 
+# Excel Generator Configuration
+
+### create a file named 
 config.env for database connections.
 
-## config.env
-```
+### config.env
+``` python
 [DB]
 DB_HOST=localhost
 DB_PORT=5433
