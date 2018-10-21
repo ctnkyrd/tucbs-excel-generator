@@ -6,7 +6,11 @@ cnn = Connection()
 class CografiVeriFormu:
     def __init__(self, bakanlik, adi, birim, tucbs_katmani, katman_adi, katman_durumu, tucbs_uygunluk, veri_turu, veri_tipi, veri_adedi, veri_formati, projeksiyon,
                     datum, olcek_duzey, veri_guncelleme_periyod, son_veri_guncelleme_tarih, veri_envanteri_aciklama, tucbs_tema_harici, inspire_katmani, inspire_uygunluk,
-                    katman_aciklama, tesim_alindi, teslim_formati, teslim_alinan_veri_sayisi):
+                    katman_aciklama, tesim_alindi, teslim_formati, teslim_alinan_veri_sayisi, vk_amac,vk_kullanim,vk_kokeni,vk_copleteness_fazlalik,vk_fazlalik_yeni,
+                    vk_eksizlik_yeni,vk_lc_kavramsal_tutarlilik,vk_kavramsal_yeni,vk_tanim_kumesi_yeni,vk_format_tutarlilik_yeni,vk_topoloji_tutarlilik_yeni,
+                    vk_pa_mutlak_dogruluk,vk_konumsal_mutlak_dogruluk_yeni,vk_konumsal_bagil_dogruluk_yeni,vk_konumsal_raster_veri_konum_yeni,
+                    vk_ta_ilgili_zamandaki_dogruluk,vk_zamansal_ilgili_yeni,vk_zamansal_tutarlilik_yeni,vk_zamansal_gecerlilik_yeni,vk_tema_siniflandirma_dogrulugu,
+                    vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama):
         self.bakanlik = bakanlik
         self.adi = adi
         self.birim = birim
@@ -69,6 +73,89 @@ class CografiVeriFormu:
         else:
             self.teslim_formati = None
         self.teslim_alinan_veri_sayisi = teslim_alinan_veri_sayisi
+
+        # veri kalitesi columns get
+        self.vk_amac = vk_amac
+        self.vk_kullanim = vk_kullanim
+        self.vk_kokeni = vk_kokeni
+        self.vk_copleteness_fazlalik = vk_copleteness_fazlalik
+
+        if vk_fazlalik_yeni is not None:
+            self.vk_fazlalik_yeni = cnn.getsinglekoddata('kod_ek_2_fazlalik', 'kod', 'objectid='+str(vk_fazlalik_yeni))
+        else:
+            self.vk_fazlalik_yeni = None
+        if vk_eksizlik_yeni is not None:
+            self.vk_eksizlik_yeni = cnn.getsinglekoddata('kod_ek_2_verinin_eksizligi', 'kod', 'objectid='+str(vk_eksizlik_yeni))
+        else:
+            self.vk_eksizlik_yeni = None
+        self.vk_lc_kavramsal_tutarlilik = vk_lc_kavramsal_tutarlilik
+        if vk_kavramsal_yeni is not None:
+            self.vk_kavramsal_yeni = cnn.getsinglekoddata('kod_ek_2_kavramsal_tutarlilik', 'kod', 'objectid='+str(vk_kavramsal_yeni))
+        else:
+            self.vk_kavramsal_yeni = None
+        if vk_tanim_kumesi_yeni is not None:
+            self.vk_tanim_kumesi_yeni = cnn.getsinglekoddata('kod_ek_2_tanim_kumesi_tutarlilik', 'kod', 'objectid='+str(vk_tanim_kumesi_yeni))
+        else:
+            self.vk_tanim_kumesi_yeni = None
+        if vk_format_tutarlilik_yeni is not None:
+            self.vk_format_tutarlilik_yeni = cnn.getsinglekoddata('kod_ek_2_format_tutarlilik', 'kod', 'objectid='+str(vk_format_tutarlilik_yeni))
+        else:
+            self.vk_format_tutarlilik_yeni = None
+        if vk_topoloji_tutarlilik_yeni is not None:
+            self.vk_topoloji_tutarlilik_yeni = cnn.getsinglekoddata('kod_ek_2_topoloji_tutarlilik', 'kod', 'objectid='+str(vk_topoloji_tutarlilik_yeni))
+        else:
+            self.vk_topoloji_tutarlilik_yeni = None
+
+        self.vk_pa_mutlak_dogruluk = vk_pa_mutlak_dogruluk
+
+        if vk_konumsal_mutlak_dogruluk_yeni is not None:
+            self.vk_konumsal_mutlak_dogruluk_yeni = cnn.getsinglekoddata('kod_ek_2_konumsal_dogruluk', 'kod', 'objectid='+str(vk_konumsal_mutlak_dogruluk_yeni))
+        else:
+            self.vk_konumsal_mutlak_dogruluk_yeni = None
+        
+        if vk_konumsal_bagil_dogruluk_yeni is not None:
+            self.vk_konumsal_bagil_dogruluk_yeni = cnn.getsinglekoddata('kod_ek_2_konumsal_dogruluk', 'kod', 'objectid='+str(vk_konumsal_bagil_dogruluk_yeni))
+        else:
+            self.vk_konumsal_mutlak_dogruluk_yeni = None
+        
+        if vk_konumsal_raster_veri_konum_yeni is not None:
+            self.vk_konumsal_raster_veri_konum_yeni = cnn.getsinglekoddata('kod_ek_2_konumsal_dogruluk', 'kod', 'objectid='+str(vk_konumsal_raster_veri_konum_yeni))
+        else:
+            self.vk_konumsal_raster_veri_konum_yeni = None
+
+        self.vk_ta_ilgili_zamandaki_dogruluk = vk_ta_ilgili_zamandaki_dogruluk
+
+        if vk_zamansal_ilgili_yeni is not None:
+            self.vk_zamansal_ilgili_yeni = cnn.getsinglekoddata('kod_ek_2_zamansal_dogruluk', 'kod', 'objectid='+str(vk_zamansal_ilgili_yeni))
+        else:
+            self.vk_zamansal_ilgili_yeni = None
+        
+        if vk_zamansal_tutarlilik_yeni is not None:
+            self.vk_zamansal_tutarlilik_yeni = cnn.getsinglekoddata('kod_ek_2_zamansal_tutarlilik', 'kod', 'objectid='+str(vk_zamansal_tutarlilik_yeni))
+        else:
+            self.vk_zamansal_tutarlilik_yeni = None
+
+        if vk_zamansal_gecerlilik_yeni is not None:
+            self.vk_zamansal_gecerlilik_yeni = cnn.getsinglekoddata('kod_ek_2_zamansal_gecerlilik', 'kod', 'objectid='+str(vk_zamansal_gecerlilik_yeni))
+        else:
+            self.vk_zamansal_gecerlilik_yeni = None
+        self.vk_tema_siniflandirma_dogrulugu = vk_tema_siniflandirma_dogrulugu
+
+        if vk_tematik_siniflandirma_yeni is not None:
+            self.vk_tematik_siniflandirma_yeni = cnn.getsinglekoddata('kod_ek_2_siniflandirma_dogrulugu', 'kod', 'objectid='+str(vk_tematik_siniflandirma_yeni))
+        else:
+            self.vk_tematik_siniflandirma_yeni = None
+
+        if vk_tematik_nicel_yeni is not None:
+            self.vk_tematik_nicel_yeni = cnn.getsinglekoddata('kod_ek_2_nicel_oznitelik_bilgileri_dogruluk', 'kod', 'objectid='+str(vk_tematik_nicel_yeni))
+        else:
+            self.vk_tematik_nicel_yeni = None
+
+        if vk_tematik_nicel_olmayan_yeni is not None:
+            self.vk_tematik_nicel_olmayan_yeni = cnn.getsinglekoddata('kod_ek_2_nicel_olmayan_nitelik_bilgileri_dogruluk', 'kod', 'objectid='+str(vk_tematik_nicel_olmayan_yeni))
+        else:
+            self.vk_tematik_nicel_olmayan_yeni = None
+        self.vk_aciklama = vk_aciklama
         
     
     def createExcelFile(self):

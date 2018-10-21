@@ -47,4 +47,5 @@ dict_veri_katmani = {
     'vk_tematik_siniflandirma_yeni'         : 81,
     'vk_tematik_nicel_yeni'                 : 82,
     'vk_tematik_nicel_olmayan_yeni'         : 83,
+    'vk_aciklama'                           : 52,
 }
