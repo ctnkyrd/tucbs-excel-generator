@@ -36,5 +36,16 @@ dict_veri_katmani = {
     'vk_format_tutarlilik_yeni'             : 73,
     'vk_topoloji_tutarlilik_yeni'           : 74,
     'vk_pa_mutlak_dogruluk'                 : 28,
-    'vk_konumsal_mutlak_dogruluk_yeni'      :75
+    'vk_konumsal_mutlak_dogruluk_yeni'      : 75,
+    'vk_konumsal_bagil_dogruluk_yeni'       : 76,
+    'vk_konumsal_raster_veri_konum_yeni'    : 77,
+    'vk_ta_ilgili_zamandaki_dogruluk'       : 29,
+    'vk_zamansal_ilgili_yeni'               : 78,
+    'vk_zamansal_tutarlilik_yeni'           : 79,
+    'vk_zamansal_gecerlilik_yeni'           : 80,
+    'vk_tema_siniflandirma_dogrulugu'       : 30,
+    'vk_tematik_siniflandirma_yeni'         : 81,
+    'vk_tematik_nicel_yeni'                 : 82,
+    'vk_tematik_nicel_olmayan_yeni'         : 83,
+    'vk_aciklama'                           : 52,
 }
