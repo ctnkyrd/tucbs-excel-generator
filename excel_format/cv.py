@@ -65,10 +65,10 @@ class CografiVeriFormu:
         self.teslim_alindi = tesim_alindi
 
         if teslim_formati is not None:
-            self.teslim_formati = cnn.getsinglekoddata('kod_ek_2_veri_turu', 'kod', 'objectid='+str(teslim_formati))
+            self.teslim_formati = cnn.getsinglekoddata('kod_ek_2_veri_formati', 'kod', 'objectid='+str(teslim_formati))
         else:
             self.teslim_formati = None
-        
+        self.teslim_alinan_veri_sayisi = teslim_alinan_veri_sayisi
         
     
     def createExcelFile(self):
@@ -305,26 +305,36 @@ class CografiVeriFormu:
             ws.write_rich_string('G27', merge_small_header, u'Veri Tipi', f_comment, u' (Coğrafi Veri / Sözel Veri)', f_border_center)
             ws.merge_range('M27:S27', u'Veri Formatı', merge_small_header)
             ws.merge_range('T27:U27', u'Veri Sayısı', merge_small_header)
-            ws.merge_range('A28:F28', u'', merge_small_header)
-            ws.merge_range('G28:L28', u'', merge_small_header)
-            ws.merge_range('M28:S28', u'', merge_small_header)
-            ws.merge_range('T28:U28', u'', merge_small_header)
+
 
             if self.teslim_alindi:
-                ws.write('A28', self.katman_adi.decode('utf-8'),f_data_center)
+                ws.merge_range('A28:F28', self.katman_adi.decode('utf-8'),f_data_center)
                 if self.veri_tipi:
-                    ws.write('G28', self.veri_tipi.decode('utf-8'),f_data_center)
+                     ws.merge_range('G28:L28', self.veri_tipi.decode('utf-8'),f_data_center)
                 else:
-                    ws.write('G28', u'', f_data_emty)
+                     ws.merge_range('G28:L28', u'', f_data_emty)
+                
+                if self.teslim_formati is not None:
+                     ws.merge_range('M28:S28', self.teslim_formati.decode('utf-8'), f_data_center)
+                else:
+                     ws.merge_range('M28:S28', u'', f_data_emty)
+                
+                if self.teslim_alinan_veri_sayisi is not None:
+                    ws.merge_range('T28:U28', self.teslim_alinan_veri_sayisi.decode('utf-8'), f_data_center)
+                else:
+                    ws.merge_range('T28:U28', u'', f_data_emty)
             else:
-                pass
+                ws.merge_range('A28:F28', u'', merge_small_header)
+                ws.merge_range('G28:L28', u'', merge_small_header)
+                ws.merge_range('M28:S28', u'', merge_small_header)
+                ws.merge_range('T28:U28', u'', merge_small_header)
 
             ws.merge_range('G16:J16', u'Var( )', merge_small_header2)
             ws.merge_range('K16:M16', u'Yok( )', merge_small_header2)
             ws.merge_range('N18:U18', u'Evet ( )    Hayır( )', merge_small_header)
 
             if self.katman_aciklama is not None:
-                ws.merge_range('A91:U19', self.katman_aciklama.decode('utf-8'), f_data_left)
+                ws.merge_range('A19:U19', self.katman_aciklama.decode('utf-8'), f_data_left)
             else:
                 ws.merge_range('A19:U19', u'', f_data_left)
                 ws.set_row(18, 5)
