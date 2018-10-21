@@ -1,7 +1,7 @@
-##create a file named 
+## create a file named 
 config.env for database connections.
 
-##config.env
+## config.env
 ```
 [DB]
 DB_HOST=localhost
