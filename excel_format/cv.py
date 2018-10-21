@@ -6,7 +6,7 @@ cnn = Connection()
 class CografiVeriFormu:
     def __init__(self, bakanlik, adi, birim, tucbs_katmani, katman_adi, katman_durumu, tucbs_uygunluk, veri_turu, veri_tipi, veri_adedi, veri_formati, projeksiyon,
                     datum, olcek_duzey, veri_guncelleme_periyod, son_veri_guncelleme_tarih, veri_envanteri_aciklama, tucbs_tema_harici, inspire_katmani, inspire_uygunluk,
-                    katman_aciklama):
+                    katman_aciklama, tesim_alindi, teslim_formati, teslim_alinan_veri_sayisi):
         self.bakanlik = bakanlik
         self.adi = adi
         self.birim = birim
@@ -60,7 +60,15 @@ class CografiVeriFormu:
             self.tucbs_tema_harici = False
         else:
             self.tucbs_tema_harici = False
+
         self.katman_aciklama = katman_aciklama        
+        self.teslim_alindi = tesim_alindi
+
+        if teslim_formati is not None:
+            self.teslim_formati = cnn.getsinglekoddata('kod_ek_2_veri_turu', 'kod', 'objectid='+str(teslim_formati))
+        else:
+            self.teslim_formati = None
+        
         
     
     def createExcelFile(self):
@@ -95,8 +103,8 @@ class CografiVeriFormu:
         ws.set_row(20, 24.75)
         ws.set_row(21, 14.25)
         ws.set_row(22, 75)
-
-
+        ws.set_row(24, 5)
+        ws.set_row(25, 21)
 
         merge_header_format = wb.add_format()
         merge_header_format.set_font_size(16)
@@ -280,13 +288,37 @@ class CografiVeriFormu:
             ws.write('U23', u'', f_data_emty)
 
         # katman aciklama
-        if self.katman_aciklama is not None:
-            ws.merge_range('A19:U19', self.katman_aciklama.decode('utf-8'), f_data_left)
+        if self.veri_envanteri_aciklama is not None:
+            ws.set_row(23, 25)
+            ws.merge_range('A24:U24', self.veri_envanteri_aciklama.decode('utf-8'), f_data_left)
         else:
-            ws.merge_range('A19:U19', u'', merge_small_header2)
-            ws.set_row(18, 5)
+            ws.merge_range('A24:U24', u'', merge_small_header2)
+            ws.set_row(23, 5)
+
+        # veri teslimi
+        ws.merge_range('A26:U26', u'', merge_small_header)
+        ws.write_rich_string('A26', merge_header_format2, u'Veri Teslimi', f_comment_left, u'  (Teslim alınan veriler için doldurulacaktır)',f_border)
+        ws.merge_range('A27:F27', u'Veri Katmanı', merge_small_header)
+        ws.merge_range('G27:L27', u'', merge_small_header)
+        ws.write_rich_string('G27', merge_small_header, u'Veri Tipi', f_comment, u' (Coğrafi Veri / Sözel Veri)', f_border_center)
+        ws.merge_range('M27:S27', u'Veri Formatı', merge_small_header)
+        ws.merge_range('T27:U27', u'Veri Sayısı', merge_small_header)
+        ws.merge_range('A28:F28', u'', merge_small_header)
+        ws.merge_range('G28:L28', u'', merge_small_header)
+        ws.merge_range('M28:S28', u'', merge_small_header)
+        ws.merge_range('T28:U28', u'', merge_small_header)
 
 
+        if self.teslim_alindi:
+            ws.write('A28', self.katman_adi.decode('utf-8'),f_data_center)
+            if self.veri_tipi:
+                ws.write('G28', self.veri_tipi.decode('utf-8'),f_data_center)
+            else:
+                ws.write('G28', u'', f_data_emty)
+
+            pass
+        else:
+            pass
 
         ws.merge_range('G16:J16', u'Var( )', merge_small_header2)
         ws.merge_range('K16:M16', u'Yok( )', merge_small_header2)

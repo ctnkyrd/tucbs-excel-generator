@@ -27,7 +27,7 @@ for i in kurum:
                             katman[cvdict['veri_adedi']], katman[cvdict['veri_formati']], katman[cvdict['projeksiyon']], katman[cvdict['datum']], 
                             katman[cvdict['olcek_duzey']], katman[cvdict['veri_guncelleme_periyod']], katman[cvdict['son_veri_guncelleme_tarih']], 
                             katman[cvdict['veri_envanteri_aciklama']], katman[cvdict['tucbs_tema_harici']], katman[cvdict['inspire_katmani']],
-                            katman[cvdict['inspire_uygunluk']], katman[cvdict['katman_aciklama']])
+                            katman[cvdict['inspire_uygunluk']], katman[cvdict['katman_aciklama']], katman[cvdict['tesim_alindi']], katman[cvdict['teslim_formati']], katman[cvdict['teslim_alinan_veri_sayisi']])
         print cvf.katman_adi
         try:
             cvf.createExcelFile()

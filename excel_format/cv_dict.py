@@ -21,4 +21,7 @@ dict_veri_katmani = {
     'katman_aciklama'           : 61,
     'tucbs_tema_harici'         : 5,
     'inspire_uygunluk'          : 6,
+    'tesim_alindi'              : 14,
+    'teslim_formati'            : 15,
+    'teslim_alinan_veri_sayisi' : 16,
 }
