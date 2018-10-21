@@ -2,12 +2,6 @@
 from pgget import Connection
 cnn = Connection()
 
-# class VeriKatmani:
-#     def __init__(self, katman_adi, katman_durumu):
-#         self.katman_adi = katman_adi
-#         self.katman_durumu = katman_durumu
-#         self.oid = cnn.executeSql("select * from x_ek_2_tucbs_veri_katmani where ek_2 = "+str())
-
 class Kurum:
     def __init__(self, oid, verikatmani=None):
         self.oid = oid
