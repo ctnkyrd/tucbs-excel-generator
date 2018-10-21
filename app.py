@@ -30,6 +30,7 @@ for i in kurum:
                             katman[cvdict['inspire_uygunluk']], katman[cvdict['katman_aciklama']], katman[cvdict['tesim_alindi']], katman[cvdict['teslim_formati']], katman[cvdict['teslim_alinan_veri_sayisi']])
         print cvf.katman_adi
         try:
+            # excel created here
             cvf.createExcelFile()
         except BaseException as be:
             print be.message

@@ -125,6 +125,7 @@ class CografiVeriFormu:
         merge_small_header.set_border()
         merge_small_header.set_align('center')
         merge_small_header.set_align('vcenter')
+        merge_small_header.set_text_wrap()
 
         merge_small_header2 = wb.add_format()
         merge_small_header2.set_font_size(11)
@@ -169,7 +170,7 @@ class CografiVeriFormu:
 
 
         f_data_emty = wb.add_format()
-        f_data_emty.set_bg_color('yellow')
+        f_data_emty.set_bg_color('#C5C5C5')
         f_data_emty.set_border()
 
         f_comment = wb.add_format()
@@ -234,15 +235,15 @@ class CografiVeriFormu:
         ws.merge_range('S21:S22', u'',f_border_center)
         ws.merge_range('T21:T22', u'',f_border_center)
         ws.merge_range('U21:U22', u'',f_border_center)
-        ws.write_rich_string('A21', merge_small_header, u'Katman Adı', f_border_center)
+        ws.write('A21',u'Katman Adı', f_border_center)
         ws.write_rich_string('D21', merge_small_header, u'Veri Türü', f_comment, u' (Dijital Veri / Basılı Veri)', f_border_center)
         ws.write_rich_string('G21', merge_small_header, u'Veri Tipi', f_comment, u' (Coğrafi Veri / Sözel Veri)', f_border_center)
-        ws.write_rich_string('J21', merge_small_header, u'Veri Adetleri', f_border_center)
-        ws.write_rich_string('L21', merge_small_header, u'Veri Formatı', f_border_center)
-        ws.write_rich_string('Q21', merge_small_header, u'Projeksiyon/Datum Bilgisi', f_border_center)
-        ws.write_rich_string('S21', merge_small_header, u'Ölçek/Düzey/Çözünürlük', f_border_center)
+        ws.write('J21', u'Veri Adetleri', merge_small_header)
+        ws.write('L21', u'Veri Formatı', merge_small_header)
+        ws.write('Q21', u'Projeksiyon/Datum Bilgisi', merge_small_header)
+        ws.write('S21', u'Ölçek/Düzey/Çözünürlük', merge_small_header)
         ws.write_rich_string('T21', merge_small_header, u'Veri Güncelleme Durumu', f_comment, u' (Güncelleme Sıklığı)', f_border_center)
-        ws.write_rich_string('U21', merge_small_header, u'Son Veri Güncelleme Tarihi', f_border_center)
+        ws.write('U21', u'Son Veri Güncelleme Tarihi', merge_small_header)
 
         # veri envanteri loaders
         ws.merge_range('A23:C23',self.katman_adi.decode('utf-8'), f_data_center)
@@ -283,7 +284,7 @@ class CografiVeriFormu:
             ws.write('T23', u'', f_data_emty)
         # son veri güncelleme tarihi
         if self.son_veri_guncelleme_tarih is not None:
-            ws.write('U23',self.son_veri_guncelleme_tarih.decode('utf-8'), f_data_center)
+            ws.write('U23',self.son_veri_guncelleme_tarih.strftime('%Y-%m-%d'), f_data_center)
         else:
             ws.write('U23', u'', f_data_emty)
 
