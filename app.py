@@ -29,11 +29,12 @@ for i in kurum:
     # birden fazla donanım yazılım formu olması durumu için oluşturuldu
     dyag_counter = 0
     for dyag in kurumDonanimYazilimAgGuvenlik:
-        dyagvf =  DonanimYazilimFormu(newKurum.bakanlik, newKurum.adi, dyag_counter, katman[dyagdict['sunucu_yeterli']],katman[dyagdict['sunucu_yetersiz_aciklama']],
-                                        katman[dyagdict['kamunet_agina_bagli']],katman[dyagdict['kamunet_agina_bagli_degil_aciklama']],
-                                        katman[dyagdict['ipsecvpn_uygun']],katman[dyagdict['ipsecvpn_uygunsuz_aciklama']],katman[dyagdict['ipsecvpn_bagli']])
+        dyagvf =  DonanimYazilimFormu(newKurum.bakanlik, newKurum.adi, newKurum.birim, dyag_counter, dyag[dyagdict['sunucu_yeterli']],dyag[dyagdict['sunucu_yetersiz_aciklama']],
+                                        dyag[dyagdict['kamunet_agina_bagli']],dyag[dyagdict['kamunet_agina_bagli_degil_aciklama']],
+                                        dyag[dyagdict['ipsecvpn_uygun']],dyag[dyagdict['ipsecvpn_uygunsuz_aciklama']],dyag[dyagdict['ipsecvpn_bagli']])
         dyag_counter += 1
-    
+
+        dyagvf.createExcelFile()
     
     for katman in kurumKatmanalri:
         newKurum.add_veri_katmani(katman)
@@ -66,6 +67,8 @@ for i in kurum:
             # print str(counter) +"-->"+ cvf.katman_adi.decode('utf-8')
             # excel created here
             cvf.createExcelFile()
-        except BaseException as be:
-            print be
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
     print unicode(newKurum.adi), u"--> Tamamlandı", u" Toplam Katman: "+ str(counter)

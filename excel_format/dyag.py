@@ -22,11 +22,11 @@ class DonanimYazilimFormu:
 
     def createExcelFile(self):
         try:
-            excelPath = "created_excels"+"\\"+self.adi+"
+            excelPath = "created_excels"+"\\"+self.adi
             if self.fileCount == 0:
                 excelName = u"TUCBS- DYAGAF-DonanımYazılımAğveGüvenlikAnalizFormu.xlsx"
             else:
-                excelName = u"TUCBS- DYAGAF-DonanımYazılımAğveGüvenlikAnalizFormu_"+str(fileCount)+".xlsx"
+                excelName = u"TUCBS- DYAGAF-DonanımYazılımAğveGüvenlikAnalizFormu_"+str(self.fileCount)+".xlsx"
 
             fullFolderPath = excelPath
 
@@ -51,34 +51,34 @@ class DonanimYazilimFormu:
             worksheet.set_column('G:G', 25.57)
 
             # Formatlar
-            merge_format = workbook.add_format({
+            merge_format = wb.add_format({
                 'bold': 1,
                 'border': 1,
                 'align': 'center',
                 'valign': 'vcenter'})
 
-            main_header_format = workbook.add_format({
+            main_header_format = wb.add_format({
                 'font_size': 16,
                 'bold': 1,
                 'border': 1,
                 'align': 'center',
                 'valign': 'vcenter'})
 
-            header_format = workbook.add_format({
+            header_format = wb.add_format({
                 'font_size': 16,
                 'bold': 1,
                 'border': 1,
                 'align': 'left',
                 'valign': 'vcenter'})
 
-            text_format = workbook.add_format({
+            text_format = wb.add_format({
                 'bold': 1,
                 'border': 1,
                 'align': 'left',
                 'valign': 'vcenter'})
             text_format.set_text_wrap()
 
-            data_format_r = workbook.add_format({
+            data_format_r = wb.add_format({
                 'font_color': 'red',
                 'bold': 1,
                 'border': 1,
@@ -86,13 +86,23 @@ class DonanimYazilimFormu:
                 'valign': 'vcenter'})
             data_format_r.set_text_wrap()
 
-            data_format_c = workbook.add_format({
+            data_format_c = wb.add_format({
                 'font_color': 'red',
                 'bold': 1,
                 'border': 1,
                 'align': 'center',
                 'valign': 'vcenter'})
             data_format_c.set_text_wrap()
+
+            f_data_emty = wb.add_format()
+            f_data_emty.set_bg_color('#C5C5C5')
+            f_data_emty.set_border()
+
+            default_format = wb.add_format()
+            default_format.set_border()
+
+            light_format = wb.add_format()
+            light_format.set_border()
 
             # Baslik
             worksheet.insert_image('A1', r"logo\csb.jpg", {'x_offset': 43,'y_offset': 7,'x_scale': 1.5})
@@ -108,32 +118,79 @@ class DonanimYazilimFormu:
             # Genel Bilgiler
             worksheet.merge_range('A6:G6', u'Genel Bilgiler', header_format)
             worksheet.write('A7', u'Bakanlık', text_format)
-            worksheet.merge_range('B7:G7', u'İçişleri Bakanlığı', data_format_r)
+
+            if self.bakanlik is not None:
+                worksheet.merge_range('B7:G7', self.bakanlik, data_format_r)
+            else:
+                worksheet.merge_range('B7:G7', u'', f_data_emty)
+            
+            if self.adi is not None:
+                worksheet.merge_range('B8:G8', self.adi, data_format_r)
+            else:
+                worksheet.merge_range('B8:G8', u'', f_data_emty)
+
+            if self.birim is not None:
+                worksheet.merge_range('B9:G9', self.birim, data_format_r)
+            else:
+                worksheet.merge_range('B9:G9', u'', f_data_emty)
+                
+
             worksheet.write('A8', u'Genel Müdürlük / Belediye', text_format)
-            worksheet.merge_range('B8:G8', u'Afet ve Acil Durum Yönetimi Başkanlığı', data_format_r)
             worksheet.write('A9', u'Birimi Adı', text_format)
-            worksheet.merge_range('B9:G9', u'Coğrafi Bilgi Teknolojileri Çalışma Grubu', data_format_r)
             worksheet.merge_range('A10:G10', u'')
+
 
             # Donanim
             worksheet.merge_range('A11:G11', u'Donanım', header_format)
             worksheet.merge_range('A12:A13', u'Coğrafi Veri Depolama ve Sunumu Amaçlı Kullanılan Donanım Yeterli Mi?', text_format)
-            worksheet.write('B12', u'Evet ()', text_format)
-            worksheet.write('B13', u'Hayır ()', text_format)
-            worksheet.merge_range('C12:G13', u'', data_format_r)
+
+            if self.sunucu_yeterli:
+                worksheet.write_rich_string('B12', light_format, u'Evet ( ', data_format_r, u'X', light_format, u' )')
+                worksheet.write('B13', u'Hayır ( )', light_format)
+            else:
+                worksheet.write('B12', u'Evet ( )', light_format)
+                worksheet.write_rich_string('B13', light_format, u'Hayır ( ', data_format_r, u'X', light_format, u' )',default_format)
+
+            if self.sunucu_yetersiz_aciklama is not None:
+                worksheet.merge_range('C12:G13', self.sunucu_yetersiz_aciklama.decode('utf-8'), data_format_r)
+            else:
+                worksheet.merge_range('C12:G13', u'', data_format_r)
+
             worksheet.merge_range('A14:G14', u'')
 
             # Ag ve Guvenlik
             worksheet.merge_range('A15:G15', u'Ağ ve Güvenlik', header_format)
             worksheet.merge_range('A16:A17', u'Kamu.Net Ağına Bağlı', text_format)
-            worksheet.write('B16', u'Evet ()', text_format)
-            worksheet.write('B17', u'Hayır ()', text_format)
-            worksheet.merge_range('C16:G17', u'', data_format_r)
-            worksheet.merge_range('A18:A19', u'IPSECVPN Olarak Bağlantı Yapmaya Uygun Mu?', text_format)
-            worksheet.write('B18', u'Evet ()', text_format)
-            worksheet.write('B19', u'Hayır ()', text_format)
-            worksheet.merge_range('C18:G19', u'', data_format_r)
 
-            workbook.close()
+            if self.kamunet_agina_bagli:
+                worksheet.write_rich_string('B16', light_format, u'Evet ( ', data_format_r, u'X', light_format, u' )')
+                worksheet.write('B17', u'Hayır ( )', light_format)
+            else:
+                worksheet.write('B16', u'Evet ( )', light_format)
+                worksheet.write_rich_string('B17', light_format, u'Hayır ( ', data_format_r, u'X', light_format, u' )',default_format) 
+
+            if self.kamunet_agina_bagli_degil_aciklama is not None:
+                worksheet.merge_range('C16:G17', self.kamunet_agina_bagli_degil_aciklama.decode('utf-8'), data_format_r)
+            else:
+                worksheet.merge_range('C16:G17', u'', data_format_r)
+
+
+            worksheet.merge_range('A18:A19', u'IPSECVPN Olarak Bağlantı Yapmaya Uygun Mu?', text_format)
+
+
+            if self.ipsecvpn_uygun:
+                worksheet.write_rich_string('B18', light_format, u'Evet ( ', data_format_r, u'X', light_format, u' )',default_format)
+                worksheet.write('B19', u'Hayır ( )', light_format)
+            else:
+                worksheet.write('B18', u'Evet ( )', light_format)
+                worksheet.write_rich_string('B19', light_format, u'Hayır ( ', data_format_r, u'X', light_format, u' )', default_format) 
+
+            if self.ipsecvpn_uygunsuz_aciklama is not None:
+                worksheet.merge_range('C18:G19', self.ipsecvpn_uygunsuz_aciklama.decode('utf-8'), data_format_r)
+            else:
+                worksheet.merge_range('C18:G19', u'', data_format_r)
+
+
+            wb.close()
         except BaseException as ex:
             print ex

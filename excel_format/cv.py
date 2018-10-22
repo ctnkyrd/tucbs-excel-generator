@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import xlsxwriter, os
+import xlsxwriter, os, sys
 from pgget import Connection
 cnn = Connection()
 
@@ -180,9 +180,10 @@ class CografiVeriFormu:
             if os.path.isdir(unicode(fullFolderPath)) is False:
                 try:
                     os.makedirs(unicode(fullFolderPath))
-                except BaseException as ex:
-                    print fullFolderPath
-                    print ex
+                except Exception as e:
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    print(exc_type, fname, exc_tb.tb_lineno)
             
             wb = xlsxwriter.Workbook(fullFolderPath+"\\"+excelName)
             ws = wb.add_worksheet()
@@ -438,7 +439,7 @@ class CografiVeriFormu:
 
             if self.teslim_alindi:
                 ws.merge_range('A28:F28', self.katman_adi.decode('utf-8'),f_data_center)
-                if self.veri_tipi:
+                if self.veri_tipi is not None:
                      ws.merge_range('G28:L28', self.veri_tipi.decode('utf-8'),f_data_center)
                 else:
                      ws.merge_range('G28:L28', u'', f_data_emty)
@@ -683,12 +684,14 @@ class CografiVeriFormu:
                     ws.merge_range('N17:U17', '', f_data_emty)
                 
                 if self.inspire_uygunluk:
-                    ws.write_rich_string('N18', merge_small_header2,u'Evet (', f_red, 'X', merge_small_header2,')    Hayır( )',f_border_center)
+                    ws.write_rich_string('N18', merge_small_header2,u'Evet (', f_red, u'X', merge_small_header2,u')    Hayır( )',f_border_center)
                 else: 
-                    ws.write_rich_string('N18', merge_small_header2,u'Evet ( )     Hayır (', f_red, 'X', merge_small_header2,')',f_border_center)
+                    ws.write_rich_string('N18', merge_small_header2,u'Evet ( )     Hayır (', f_red, u'X', merge_small_header2,')',f_border_center)
             else:
                 pass
                 
             wb.close()
-        except BaseException as ex:
-            print ex
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)

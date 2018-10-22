@@ -14,6 +14,7 @@ class Connection:
         cur = conn.cursor()
         cur.execute(query)
         data = cur.fetchall()
+        conn.close()
         return data
 
     def getsinglekoddata(self, tableName, valueColumn, where = ""):
