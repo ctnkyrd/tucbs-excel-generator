@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-import xlsxwriter
+import xlsxwriter, os
 from pgget import Connection
 cnn = Connection()
 
 class MetaveriFormu:
-    def __init__(self, katman_adi, mv_metaveri_var, mv_standart, mv_yayinlaniyor, mv_cbs_gm_paylasim_var, metaveri_aciklama):
+    def __init__(self, katman_adi, mv_metaveri_var, mv_standart, mv_yayinlaniyor, mv_cbs_gm_paylasim_var, metaveri_aciklama,
+                adi, tucbs_katmani, inspire_katmani):
         
         
-        self.katman_adi = katman_adi
+        self.katman_adi = katman_adi.rstrip()
         self.metaveri_aciklama = metaveri_aciklama
         self.mv_metaveri_var = mv_metaveri_var
 
@@ -19,12 +20,45 @@ class MetaveriFormu:
         self.mv_yayinlaniyor = mv_yayinlaniyor
         self.mv_cbs_gm_paylasim_var = mv_cbs_gm_paylasim_var
         
+        self.adi = adi.rstrip()
+        if inspire_katmani is not None:
+            self.inspire_katmani = cnn.getsinglekoddata('kod_inspire_tema', 'tema_adi', 'objectid='+str(inspire_katmani))
+        else:
+            self.inspire_katmani = None
+        if tucbs_katmani is not None:
+            self.tucbs_veri_temasi = cnn.getsinglekoddata('kod_tucbs_tema', 'tema_adi', 'objectid='+str(tucbs_katmani))
+        else:
+            self.tucbs_veri_temasi = None
 
     def createExcelFile(self):
         try:
 
+            excelPath = "created_excels"+"\\"+self.adi+"\\"+u"CV-SP-MV"
+            excelName = u"TUCBS-MVAF-MetaveriAnalizFormu.xlsx"
+            temaName = u"Tema Yok"
+            katmanName = u"Katman Yok"
+            if self.tucbs_veri_temasi is not None:
+                temaName = self.tucbs_veri_temasi.decode('utf-8')
+            elif self.inspire_katmani is not None:
+                temaName = self.inspire_katmani.decode('utf-8')
+            
+            if self.katman_adi is not None:
+                katmanName = self.katman_adi.decode('utf-8')
+                if '/' in katmanName:
+                    katmanName = katmanName.replace('/', '_')
+            else:
+                katmanName = u"Katman Yok"
+
+            fullFolderPath = excelPath+"\\"+temaName.rstrip()+"\\"+katmanName
+            if os.path.isdir(unicode(fullFolderPath)) is False:
+                try:
+                    os.makedirs(unicode(fullFolderPath))
+                except BaseException as ex:
+                    print fullFolderPath
+                    print ex
+
             # Dosya Olusturma
-            workbook = xlsxwriter.Workbook('created_excels\\mv.xlsx')
+            workbook = xlsxwriter.Workbook(fullFolderPath+"\\"+excelName)
             worksheet = workbook.add_worksheet()
 
             # Satir / Sutun Ayarlari
