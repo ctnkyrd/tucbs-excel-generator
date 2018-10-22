@@ -2,3 +2,4 @@
 *.xlsx
 *.env
 config.env
+sapp.py
