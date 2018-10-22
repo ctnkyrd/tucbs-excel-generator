@@ -11,11 +11,12 @@ from excel_format.cv_dict import dict_veri_katmani
 # create connection
 cnn = Connection()
 kurum = cnn.getlistofdata('kurum','objectid','analiz_tamamlandi_first is true')
-
+counter=0
 cvdict = dict_veri_katmani
 for i in kurum:
+    
     newKurum = Kurum(i[0])
-    print newKurum.bakanlik +"-->"+ newKurum.adi, 'Started!'
+    print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]'), unicode(newKurum.adi)
     ek2_oid = newKurum.ek2_oid
     
     kurumKatmanalri = cnn.getlistofdata('x_ek_2_tucbs_veri_katmani','*','geodurum is true and ek_2='+str(ek2_oid))
@@ -36,9 +37,10 @@ for i in kurum:
                             katman[cvdict['vk_ta_ilgili_zamandaki_dogruluk']], katman[cvdict['vk_zamansal_ilgili_yeni']], katman[cvdict['vk_zamansal_tutarlilik_yeni']], 
                             katman[cvdict['vk_zamansal_gecerlilik_yeni']], katman[cvdict['vk_tema_siniflandirma_dogrulugu']], katman[cvdict['vk_tematik_siniflandirma_yeni']], 
                             katman[cvdict['vk_tematik_nicel_yeni']], katman[cvdict['vk_tematik_nicel_olmayan_yeni']], katman[cvdict['vk_aciklama']])
-        print cvf.katman_adi
         try:
+            counter += 1
+            # print str(counter) +"-->"+ cvf.katman_adi.decode('utf-8')
             # excel created here
             cvf.createExcelFile()
         except BaseException as be:
-            print be.message
+            print be

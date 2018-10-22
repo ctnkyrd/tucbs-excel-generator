@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import xlsxwriter
+import xlsxwriter, os
 from pgget import Connection
 cnn = Connection()
 
@@ -12,7 +12,7 @@ class CografiVeriFormu:
                     vk_ta_ilgili_zamandaki_dogruluk,vk_zamansal_ilgili_yeni,vk_zamansal_tutarlilik_yeni,vk_zamansal_gecerlilik_yeni,vk_tema_siniflandirma_dogrulugu,
                     vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama):
         self.bakanlik = bakanlik
-        self.adi = adi
+        self.adi = adi.rstrip()
         self.birim = birim
 
         # tucbs temasinin kod tablosundan çekilmesi
@@ -20,7 +20,7 @@ class CografiVeriFormu:
             self.tucbs_veri_temasi = cnn.getsinglekoddata('kod_tucbs_tema', 'tema_adi', 'objectid='+str(tucbs_katmani))
         else:
             self.tucbs_veri_temasi = None
-        self.katman_adi = katman_adi
+        self.katman_adi = katman_adi.rstrip()
         self.katman_durumu = katman_durumu
         self.tucbs_uygunluk = tucbs_uygunluk
 
@@ -160,7 +160,31 @@ class CografiVeriFormu:
     
     def createExcelFile(self):
         try:
-            wb = xlsxwriter.Workbook(r'created_excels\demo.xlsx')
+            excelPath = "created_excels"+"\\"+self.adi+"\\"+u"CV-SP-MV"
+            excelName = u"TUCBS-CVAF-CoğrafiVeriAnalizFormu.xlsx"
+            temaName = u"Tema Yok"
+            katmanName = u"Katman Yok"
+            if self.tucbs_veri_temasi is not None:
+                temaName = self.tucbs_veri_temasi.decode('utf-8')
+            elif self.inspire_katmani is not None:
+                temaName = self.inspire_katmani.decode('utf-8')
+            
+            if self.katman_adi is not None:
+                katmanName = self.katman_adi.decode('utf-8')
+                if '/' in katmanName:
+                    katmanName = katmanName.replace('/', '_')
+            else:
+                katmanName = u"Katman Yok"
+
+            fullFolderPath = excelPath+"\\"+temaName.rstrip()+"\\"+katmanName
+            if os.path.isdir(unicode(fullFolderPath)) is False:
+                try:
+                    os.makedirs(unicode(fullFolderPath))
+                except BaseException as ex:
+                    print fullFolderPath
+                    print ex
+            
+            wb = xlsxwriter.Workbook(fullFolderPath+"\\"+excelName)
             ws = wb.add_worksheet()
             ws.set_column('A:A', 5)
             ws.set_column('B:B', 5)
@@ -668,4 +692,3 @@ class CografiVeriFormu:
             wb.close()
         except BaseException as ex:
             print ex
-        
