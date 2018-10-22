@@ -12,7 +12,7 @@ from excel_format.mv_dict import dict_metaveri_katmani
 
 # create connection
 cnn = Connection()
-kurum = cnn.getlistofpytdata('kurum','objectid','analiz_tamamlandi_first is true')
+kurum = cnn.getlistofdata('kurum','objectid','analiz_tamamlandi_first is true')
 
 cvdict = dict_veri_katmani
 mvdict = dict_metaveri_katmani
@@ -45,6 +45,7 @@ for i in kurum:
                             katman[mvdict['mv_yayinlaniyor']],katman[mvdict['mv_cbs_gm_paylasim_var']],katman[mvdict['metaveri_aciklama']],
                             newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']])
         
+        cvf.createExcelFile()
         mvf.createExcelFile()
         try:
             counter += 1
