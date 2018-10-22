@@ -4,31 +4,32 @@ from pgget import Connection
 cnn = Connection()
 
 class DonanimYazilimFormu:
-    def __init__(self, bakanlik, adi, birim, ):
+    def __init__(self, bakanlik, adi, birim, fileCount, sunucu_yeterli, sunucu_yetersiz_aciklama, kamunet_agina_bagli, kamunet_agina_bagli_degil_aciklama, 
+                    ipsecvpn_uygun, ipsecvpn_uygunsuz_aciklama, ipsecvpn_bagli):
+
         self.bakanlik = bakanlik
         self.adi = adi.rstrip()
         self.birim = birim
+        self.fileCount = fileCount
+        self.sunucu_yeterli = sunucu_yeterli
+        self.sunucu_yetersiz_aciklama = sunucu_yetersiz_aciklama
+        self.kamunet_agina_bagli = kamunet_agina_bagli
+        self.kamunet_agina_bagli_degil_aciklama = kamunet_agina_bagli_degil_aciklama
+        self.ipsecvpn_uygun = ipsecvpn_uygun
+        self.ipsecvpn_uygunsuz_aciklama = ipsecvpn_uygunsuz_aciklama
+        self.ipsecvpn_bagli = ipsecvpn_bagli
 
 
     def createExcelFile(self):
         try:
-            excelPath = "created_excels"+"\\"+self.adi+"\\"+u"CV-SP-MV"
-            excelName = u"TUCBS- DYAGAF-DonanımYazılımAğveGüvenlikAnalizFormu.xlsx"
-            temaName = u"Tema Yok"
-            katmanName = u"Katman Yok"
-            if self.tucbs_veri_temasi is not None:
-                temaName = self.tucbs_veri_temasi.decode('utf-8')
-            elif self.inspire_katmani is not None:
-                temaName = self.inspire_katmani.decode('utf-8')
-            
-            if self.katman_adi is not None:
-                katmanName = self.katman_adi.decode('utf-8')
-                if '/' in katmanName:
-                    katmanName = katmanName.replace('/', '_')
+            excelPath = "created_excels"+"\\"+self.adi+"
+            if self.fileCount == 0:
+                excelName = u"TUCBS- DYAGAF-DonanımYazılımAğveGüvenlikAnalizFormu.xlsx"
             else:
-                katmanName = u"Katman Yok"
+                excelName = u"TUCBS- DYAGAF-DonanımYazılımAğveGüvenlikAnalizFormu_"+str(fileCount)+".xlsx"
 
-            fullFolderPath = excelPath+"\\"+temaName.rstrip()+"\\"+katmanName
+            fullFolderPath = excelPath
+
             if os.path.isdir(unicode(fullFolderPath)) is False:
                 try:
                     os.makedirs(unicode(fullFolderPath))

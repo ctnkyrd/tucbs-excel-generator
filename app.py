@@ -25,9 +25,16 @@ for i in kurum:
     ek2_oid = newKurum.ek2_oid
     kurumKatmanalri = cnn.getlistofdata('x_ek_2_tucbs_veri_katmani','*','geodurum is true and ek_2='+str(ek2_oid))
     kurumDonanimYazilimAgGuvenlik = cnn.getlistofdata('ek_donanim_yazilim_ag_guvenlik', '*', 'geodurum is true and kurum='+str(newKurum.oid))
-
-    # for dyag in kurumDonanimYazilimAgGuvenlik:
-    #     dyagvf =  DonanimYazilimFormu(newKurum.bakanlik, newKurum.adi, )
+    
+    # birden fazla donanım yazılım formu olması durumu için oluşturuldu
+    dyag_counter = 0
+    for dyag in kurumDonanimYazilimAgGuvenlik:
+        dyagvf =  DonanimYazilimFormu(newKurum.bakanlik, newKurum.adi, dyag_counter, katman[dyagdict['sunucu_yeterli']],katman[dyagdict['sunucu_yetersiz_aciklama']],
+                                        katman[dyagdict['kamunet_agina_bagli']],katman[dyagdict['kamunet_agina_bagli_degil_aciklama']],
+                                        katman[dyagdict['ipsecvpn_uygun']],katman[dyagdict['ipsecvpn_uygunsuz_aciklama']],katman[dyagdict['ipsecvpn_bagli']])
+        dyag_counter += 1
+    
+    
     for katman in kurumKatmanalri:
         newKurum.add_veri_katmani(katman)
         #pylint: disable-msg=too-many-arguments

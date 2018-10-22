@@ -61,5 +61,12 @@ dict_metaveri_katmani = {
 }
 
 dict_donanim_yazilim = {
-    
+    'objectid'                              : 0,
+    'sunucu_yeterli'                        : 10,
+    'sunucu_yetersiz_aciklama'              : 11,
+    'kamunet_agina_bagli'                   : 12,
+    'kamunet_agina_bagli_degil_aciklama'    : 13,
+    'ipsecvpn_uygun'                        : 14,
+    'ipsecvpn_uygunsuz_aciklama'            : 15,
+    'ipsecvpn_bagli'                        : 16,
 }
