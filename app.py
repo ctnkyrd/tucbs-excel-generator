@@ -7,12 +7,15 @@ from pgget import Connection
 from kurum import Kurum
 from excel_format.cv import CografiVeriFormu
 from excel_format.cv_dict import dict_veri_katmani
+from excel_format.mv import MetaveriFormu
+from excel_format.mv_dict import dict_metaveri_katmani
 
 # create connection
 cnn = Connection()
-kurum = cnn.getlistofdata('kurum','objectid','analiz_tamamlandi_first is true')
+kurum = cnn.getlistofpytdata('kurum','objectid','analiz_tamamlandi_first is true')
 
 cvdict = dict_veri_katmani
+mvdict = dict_metaveri_katmani
 for i in kurum:
     sys.stdout.flush()
     counter=0
@@ -37,6 +40,12 @@ for i in kurum:
                             katman[cvdict['vk_ta_ilgili_zamandaki_dogruluk']], katman[cvdict['vk_zamansal_ilgili_yeni']], katman[cvdict['vk_zamansal_tutarlilik_yeni']], 
                             katman[cvdict['vk_zamansal_gecerlilik_yeni']], katman[cvdict['vk_tema_siniflandirma_dogrulugu']], katman[cvdict['vk_tematik_siniflandirma_yeni']], 
                             katman[cvdict['vk_tematik_nicel_yeni']], katman[cvdict['vk_tematik_nicel_olmayan_yeni']], katman[cvdict['vk_aciklama']])
+        
+        mvf = MetaveriFormu(katman[mvdict['katman_adi']],katman[mvdict['mv_metaveri_var']],katman[mvdict['mv_standart']],
+                            katman[mvdict['mv_yayinlaniyor']],katman[mvdict['mv_cbs_gm_paylasim_var']],katman[mvdict['metaveri_aciklama']],
+                            newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']])
+        
+        mvf.createExcelFile()
         try:
             counter += 1
             sys.stdout.write(unicode(newKurum.adi)+u"Katman Sayısı: %d   \r" % (counter))
