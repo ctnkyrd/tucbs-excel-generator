@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
 
-print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]') + "Importing Modules"
-
+print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]') + " Started"
+import sys
 from pgget import Connection
 from kurum import Kurum
 from excel_format.cv import CografiVeriFormu
@@ -11,14 +11,14 @@ from excel_format.cv_dict import dict_veri_katmani
 # create connection
 cnn = Connection()
 kurum = cnn.getlistofdata('kurum','objectid','analiz_tamamlandi_first is true')
-counter=0
+
 cvdict = dict_veri_katmani
 for i in kurum:
-    
+    sys.stdout.flush()
+    counter=0
     newKurum = Kurum(i[0])
-    print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]'), unicode(newKurum.adi)
+    # print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]'), unicode(newKurum.adi)
     ek2_oid = newKurum.ek2_oid
-    
     kurumKatmanalri = cnn.getlistofdata('x_ek_2_tucbs_veri_katmani','*','geodurum is true and ek_2='+str(ek2_oid))
     for katman in kurumKatmanalri:
         newKurum.add_veri_katmani(katman)
@@ -39,8 +39,11 @@ for i in kurum:
                             katman[cvdict['vk_tematik_nicel_yeni']], katman[cvdict['vk_tematik_nicel_olmayan_yeni']], katman[cvdict['vk_aciklama']])
         try:
             counter += 1
+            sys.stdout.write(unicode(newKurum.adi)+u"Katman Sayısı: %d   \r" % (counter))
+            sys.stdout.flush()
             # print str(counter) +"-->"+ cvf.katman_adi.decode('utf-8')
             # excel created here
             cvf.createExcelFile()
         except BaseException as be:
             print be
+    print unicode(newKurum.adi), u"--> Tamamlandı", u" Toplam Katman: "+ str(counter)
