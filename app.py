@@ -6,9 +6,9 @@ import sys
 from pgget import Connection
 from kurum import Kurum
 from excel_format.cv import CografiVeriFormu
-from excel_format.cv_dict import dict_veri_katmani
+from excel_format.dicts import *
 from excel_format.mv import MetaveriFormu
-from excel_format.mv_dict import dict_metaveri_katmani
+from excel_format.dyag import DonanimYazilimFormu
 
 # create connection
 cnn = Connection()
@@ -16,6 +16,7 @@ kurum = cnn.getlistofdata('kurum','objectid','analiz_tamamlandi_first is true')
 
 cvdict = dict_veri_katmani
 mvdict = dict_metaveri_katmani
+dyagdict = dict_donanim_yazilim
 for i in kurum:
     sys.stdout.flush()
     counter=0
@@ -23,6 +24,10 @@ for i in kurum:
     # print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]'), unicode(newKurum.adi)
     ek2_oid = newKurum.ek2_oid
     kurumKatmanalri = cnn.getlistofdata('x_ek_2_tucbs_veri_katmani','*','geodurum is true and ek_2='+str(ek2_oid))
+    kurumDonanimYazilimAgGuvenlik = cnn.getlistofdata('ek_donanim_yazilim_ag_guvenlik', '*', 'geodurum is true and kurum='+str(newKurum.oid))
+
+    # for dyag in kurumDonanimYazilimAgGuvenlik:
+    #     dyagvf =  DonanimYazilimFormu(newKurum.bakanlik, newKurum.adi, )
     for katman in kurumKatmanalri:
         newKurum.add_veri_katmani(katman)
         #pylint: disable-msg=too-many-arguments
