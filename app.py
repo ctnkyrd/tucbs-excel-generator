@@ -11,6 +11,7 @@ from excel_format.mv import MetaveriFormu
 from excel_format.dyag import DonanimYazilimFormu
 from excel_format.ob import OrganizasyonBirimiFormu
 from excel_format.ma import MevzuatAnalizFormu
+from excel_format.sp import ServisPaylasimFormu
 
 
 
@@ -23,6 +24,8 @@ mvdict = dict_metaveri_katmani
 dyagdict = dict_donanim_yazilim
 orbidict = dict_organizasyon_birimleri
 madict = dict_mevzuat_analizi
+spdict = dict_servis_paylasim
+
 for i in kurum:
     sys.stdout.flush()
     counter=0
@@ -86,10 +89,18 @@ for i in kurum:
         mvf = MetaveriFormu(katman[mvdict['katman_adi']],katman[mvdict['mv_metaveri_var']],katman[mvdict['mv_standart']],
                             katman[mvdict['mv_yayinlaniyor']],katman[mvdict['mv_cbs_gm_paylasim_var']],katman[mvdict['metaveri_aciklama']],
                             newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']], newKurum.k_adi)
+
+        spf = ServisPaylasimFormu(katman[spdict['katman_adi']], katman[spdict['servis_var']], katman[spdict['servis_ogc_uyumlu']],
+                                  katman[spdict['servis_atlas_uyumlu']], katman[spdict['servis_wms_var']], katman[spdict['servis_wfs_var']],
+                                  katman[spdict['servis_wms_version']], katman[spdict['servis_wfs_version']], katman[spdict['servis_aciklama']],
+                                  katman[spdict['servis_yayin_platformu']], katman[spdict['sp_olmamasi_personel']], katman[spdict['sp_olmamasi_mevzuat']],
+                                  katman[spdict['sp_olmamasi_donanim']], katman[spdict['sp_olmamasi_diger']], katman[spdict['sp_olmamasi_aciklama']],
+                                  newKurum.adi, katman[spdict['tucbs_katmani']], katman[spdict['inspire_katmani']],katman[cvdict['objectid']], newKurum.k_adi)
         try:
             counter += 1
             cvf.createExcelFile()
             mvf.createExcelFile()
+            spf.createExcelFile()
             sys.stdout.write(unicode(newKurum.adi)+u"Katman Sayısı: %d   \r" % (counter))
             sys.stdout.flush()
         except Exception as e:

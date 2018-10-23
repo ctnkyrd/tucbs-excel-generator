@@ -184,10 +184,10 @@ class MevzuatAnalizFormu:
             ws.merge_range('D14:E14', u'Veri Paylaşımına Etkileri', header_format)
             ws.write('F14', u'Etkilediği Tema/Katman', header_format)
 
-            if self.veri_paylasmama_sebep is not None:
-                ws.merge_range('B11:F11', self.veri_paylasmama_sebep.decode('utf-8'), data_format_r)
+            if self.mevzuat_kisitlama:
+                ws.merge_range('B11:F11', u'Evet', data_format_r)
             else:
-                ws.merge_range('B11:F11', u'', data_format_r)
+                ws.merge_range('B11:F11', u'Hayır', data_format_r)
 
             last_starting_line = 15
 
