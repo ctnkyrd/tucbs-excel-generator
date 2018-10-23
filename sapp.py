@@ -5,10 +5,9 @@ print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]') + "Importing Modu
 
 from pgget import Connection
 from kurum import Kurum
+from excel_format.dicts import *
 from excel_format.cv import CografiVeriFormu
-from excel_format.cv_dict import dict_veri_katmani
 from excel_format.mv import MetaveriFormu
-from excel_format.mv_dict import dict_metaveri_katmani
 from excel_format.sp import ServisPaylasimFormu
 from excel_format.sp_dict import dict_servis_paylasim
 
@@ -30,20 +29,16 @@ for i in kurum:
     for   katman in kurumKatmanalri:
         
         #pylint: disable-msg=too-many-arguments
-        mvf = MetaveriFormu(katman[mvdict['katman_adi']],katman[mvdict['mv_metaveri_var']],katman[mvdict['mv_standart']],
-                            katman[mvdict['mv_yayinlaniyor']],katman[mvdict['mv_cbs_gm_paylasim_var']],katman[mvdict['metaveri_aciklama']],
-                            newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']])
         
         spf = ServisPaylasimFormu(katman[spdict['katman_adi']], katman[spdict['servis_var']], katman[spdict['servis_ogc_uyumlu']],
                                   katman[spdict['servis_atlas_uyumlu']], katman[spdict['servis_wms_var']], katman[spdict['servis_wfs_var']],
                                   katman[spdict['servis_wms_version']], katman[spdict['servis_wfs_version']], katman[spdict['servis_aciklama']],
                                   katman[spdict['servis_yayin_platformu']], katman[spdict['sp_olmamasi_personel']], katman[spdict['sp_olmamasi_mevzuat']],
                                   katman[spdict['sp_olmamasi_donanim']], katman[spdict['sp_olmamasi_diger']], katman[spdict['sp_olmamasi_aciklama']],
-                                  newKurum.adi, katman[spdict['tucbs_katmani']], katman[spdict['inspire_katmani']],)
+                                  newKurum.adi, katman[spdict['tucbs_katmani']], katman[spdict['inspire_katmani']],katman[cvdict['objectid']], newKurum.k_adi)
         
         try:
             counter += 1
-            mvf.createExcelFile()
             spf.createExcelFile()
 
         except BaseException as be:
