@@ -70,3 +70,23 @@ dict_donanim_yazilim = {
     'ipsecvpn_uygunsuz_aciklama'            : 15,
     'ipsecvpn_bagli'                        : 16,
 }
+
+dict_organizasyon_birimleri = {
+    'objectid'                              : 0,
+    'cbs_birimi_var'                        : 10,
+    'cbs_yeni_birim_gerekli'                :  11,
+    'veri_uretim_var'                       : 12,
+    'tasra_teskilati_var'                   : 13 ,
+    'sadece_sistem_idamesi_var'             : 14 ,
+    'ihtiyaclar_sizin_onayinizdan_geciyor'  : 15,
+    'personel_yeterli'                      : 16,
+    'personel_yetersizlik_kriterleri'       : 17,
+    'personel_yetersizlik_oneri'            : 18,
+    'cbs_farkindaligi_vari'                 : 19,
+    'sorunlar'                              : 20,
+    'cbs_birim_adi'                         : 21,
+    'yapilanma_olcegi'                      : 22 ,
+    'kurum_semasindaki_yeri'                : 23,
+    'tasra_teskilat_yapilanmasi'            : 24,
+    'cbs_yeni_birim_gorusler'               : 25,
+}
