@@ -191,9 +191,6 @@ class MevzuatAnalizFormu:
 
             last_starting_line = 15
 
-            # if self.mevzuat_sayisi > 1:
-            #     print "hooop"
-
             if self.mevzuat_sayisi > 0:
                 for i in self.ilgili_mevzuat:
                     adi_numarasi = i[2]
