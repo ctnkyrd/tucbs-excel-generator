@@ -155,10 +155,10 @@ class MetaveriFormu:
                 worksheet.merge_range('E9:P9', u'Hayır', data_format_r)            
 
             worksheet.merge_range('A10:D10', u'Metaveri Hangi Standarta Uygun Üretiliyor?', text_format)
-            if self.mv_standart:
-                worksheet.merge_range('E10:P10', u'Evet', data_format_r)
+            if self.mv_standart is not None:
+                worksheet.merge_range('E10:P10', self.mv_standart.decode('utf-8'), data_format_r)
             else:
-                worksheet.merge_range('E10:P10', u'Hayır', data_format_r)
+                worksheet.merge_range('E10:P10', u'', data_format_r)
 
             worksheet.merge_range('A11:D11', u'Metaveri Yayınlanıyor Mu?', text_format)
             if self.mv_yayinlaniyor:
