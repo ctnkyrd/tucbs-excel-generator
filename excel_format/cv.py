@@ -623,7 +623,7 @@ class CografiVeriFormu:
             if self.vk_aciklama is not None:
                 ws.merge_range('H54:U55', self.vk_aciklama.decode('utf-8'), f_data_right)
             else:
-                ws.merge_range('H54:U55', u'', f_data_emty)
+                ws.merge_range('H54:U55', u'', f_border)
 
             # çalışma grubu
             ws.merge_range('A57:U57', u'Çalışma Grubu', merge_header_format2)
