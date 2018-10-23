@@ -90,3 +90,9 @@ dict_organizasyon_birimleri = {
     'tasra_teskilat_yapilanmasi'            : 24,
     'cbs_yeni_birim_gorusler'               : 25,
 }
+
+dict_mevzuat_analizi = {
+    'objectid'                              : 0,
+    'mevzuat_kisitlama'                     : 10,
+    'veri_paylasmama_sebep'                 : 11,
+}

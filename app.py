@@ -10,6 +10,8 @@ from excel_format.dicts import *
 from excel_format.mv import MetaveriFormu
 from excel_format.dyag import DonanimYazilimFormu
 from excel_format.ob import OrganizasyonBirimiFormu
+from excel_format.ma import MevzuatAnalizFormu
+
 
 
 # create connection
@@ -20,6 +22,7 @@ cvdict = dict_veri_katmani
 mvdict = dict_metaveri_katmani
 dyagdict = dict_donanim_yazilim
 orbidict = dict_organizasyon_birimleri
+madict = dict_mevzuat_analizi
 for i in kurum:
     sys.stdout.flush()
     counter=0
@@ -29,8 +32,18 @@ for i in kurum:
     kurumKatmanalri = cnn.getlistofdata('x_ek_2_tucbs_veri_katmani','*','geodurum is true and ek_2='+str(ek2_oid))
     kurumDonanimYazilimAgGuvenlik = cnn.getlistofdata('ek_donanim_yazilim_ag_guvenlik', '*', 'geodurum is true and kurum='+str(newKurum.oid))
     organizasyonBirimleri = cnn.getlistofdata('ek_cbs_organizasyon_birimleri_analizi', '*', 'geodurum is true and kurum='+str(newKurum.oid))
-
+    mevzuatanalizi = cnn.getlistofdata('ek_mevzuat_analizi', '*', 'geodurum is true and kurum='+str(newKurum.oid))
     
+
+    ma_counter = 0
+    for ma in mevzuatanalizi:
+        maf = MevzuatAnalizFormu(newKurum.bakanlik, newKurum.adi, newKurum.k_adi, newKurum.birim, ma_counter, ma[madict['objectid']], ma[madict['mevzuat_kisitlama']],
+                                ma[madict['veri_paylasmama_sebep']])
+
+        ma_counter += 1
+
+        maf.createExcelFile()
+
     # birden fazla donanım yazılım formu olması durumu için oluşturuldu
     dyag_counter = 0
     for dyag in kurumDonanimYazilimAgGuvenlik:
