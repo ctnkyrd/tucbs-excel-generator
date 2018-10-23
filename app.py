@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 
-print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]') + " Started"
+print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]') + "Started"
 import sys
 from pgget import Connection
 from kurum import Kurum
@@ -31,7 +31,7 @@ for i in kurum:
     for dyag in kurumDonanimYazilimAgGuvenlik:
         dyagvf =  DonanimYazilimFormu(newKurum.bakanlik, newKurum.adi, newKurum.birim, dyag_counter, dyag[dyagdict['sunucu_yeterli']],dyag[dyagdict['sunucu_yetersiz_aciklama']],
                                         dyag[dyagdict['kamunet_agina_bagli']],dyag[dyagdict['kamunet_agina_bagli_degil_aciklama']],
-                                        dyag[dyagdict['ipsecvpn_uygun']],dyag[dyagdict['ipsecvpn_uygunsuz_aciklama']],dyag[dyagdict['ipsecvpn_bagli']])
+                                        dyag[dyagdict['ipsecvpn_uygun']],dyag[dyagdict['ipsecvpn_uygunsuz_aciklama']],dyag[dyagdict['ipsecvpn_bagli']], newKurum.k_adi)
         dyag_counter += 1
 
         dyagvf.createExcelFile()
@@ -52,11 +52,11 @@ for i in kurum:
                             katman[cvdict['vk_konumsal_mutlak_dogruluk_yeni']], katman[cvdict['vk_konumsal_bagil_dogruluk_yeni']], katman[cvdict['vk_konumsal_raster_veri_konum_yeni']], 
                             katman[cvdict['vk_ta_ilgili_zamandaki_dogruluk']], katman[cvdict['vk_zamansal_ilgili_yeni']], katman[cvdict['vk_zamansal_tutarlilik_yeni']], 
                             katman[cvdict['vk_zamansal_gecerlilik_yeni']], katman[cvdict['vk_tema_siniflandirma_dogrulugu']], katman[cvdict['vk_tematik_siniflandirma_yeni']], 
-                            katman[cvdict['vk_tematik_nicel_yeni']], katman[cvdict['vk_tematik_nicel_olmayan_yeni']], katman[cvdict['vk_aciklama']])
+                            katman[cvdict['vk_tematik_nicel_yeni']], katman[cvdict['vk_tematik_nicel_olmayan_yeni']], katman[cvdict['vk_aciklama']], newKurum.k_adi)
         
         mvf = MetaveriFormu(katman[mvdict['katman_adi']],katman[mvdict['mv_metaveri_var']],katman[mvdict['mv_standart']],
                             katman[mvdict['mv_yayinlaniyor']],katman[mvdict['mv_cbs_gm_paylasim_var']],katman[mvdict['metaveri_aciklama']],
-                            newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']])
+                            newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']], newKurum.k_adi)
         
         cvf.createExcelFile()
         mvf.createExcelFile()
@@ -71,4 +71,4 @@ for i in kurum:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
-    print unicode(newKurum.adi), u"--> Tamamlandı", u" Toplam Katman: "+ str(counter)
+    print datetime.datetime.now().strftime('[%Y-%m-%d][%H:%M:%S]') + unicode(newKurum.adi), u"--> Tamamlandı", u" Toplam Katman: "+ str(counter)

@@ -7,6 +7,7 @@ class Kurum:
         self.oid = oid
         self.kurum_kodu = cnn.getSingledataByOid('kurum', 'kurum_kodu',self.oid)
         self.ust_kodu = cnn.getSingledataByOid('kurum', 'ust_kodu',self.oid)
+        self.k_adi = cnn.getSingledataByOid('kurum', 'k_adi', self.oid)
         # Coğrafi veri analiz formu adı
         self.adi = cnn.getSingledataByOid('kurum', 'adi',self.oid).decode('utf-8')
         # katman listesi

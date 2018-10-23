@@ -5,10 +5,11 @@ cnn = Connection()
 
 class MetaveriFormu:
     def __init__(self, katman_adi, mv_metaveri_var, mv_standart, mv_yayinlaniyor, mv_cbs_gm_paylasim_var, metaveri_aciklama,
-                adi, tucbs_katmani, inspire_katmani):
+                adi, tucbs_katmani, inspire_katmani, k_adi):
         
         
         self.katman_adi = katman_adi.rstrip()
+        self.k_adi = k_adi
         self.metaveri_aciklama = metaveri_aciklama
         self.mv_metaveri_var = mv_metaveri_var
 
@@ -33,10 +34,10 @@ class MetaveriFormu:
     def createExcelFile(self):
         try:
 
-            excelPath = "created_excels"+"\\"+self.adi+"\\"+u"CV-SP-MV"
-            excelName = u"TUCBS-MVAF-MetaveriAnalizFormu.xlsx"
-            temaName = u"Tema Yok"
-            katmanName = u"Katman Yok"
+            excelPath = "created_excels"+"\\"+self.k_adi.decode('utf-8')+"\\"+u"CVSPMV"
+            excelName = u"MVAF.xlsx"
+            temaName = u"Yok"
+            katmanName = u"Yok"
             if self.tucbs_veri_temasi is not None:
                 temaName = self.tucbs_veri_temasi.decode('utf-8')
             elif self.inspire_katmani is not None:
@@ -47,7 +48,7 @@ class MetaveriFormu:
                 if '/' in katmanName:
                     katmanName = katmanName.replace('/', '_')
             else:
-                katmanName = u"Katman Yok"
+                katmanName = u"Yok"
 
             fullFolderPath = excelPath+"\\"+temaName.rstrip()+"\\"+katmanName
             if os.path.isdir(unicode(fullFolderPath)) is False:

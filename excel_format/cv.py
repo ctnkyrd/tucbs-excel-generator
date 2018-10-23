@@ -10,10 +10,11 @@ class CografiVeriFormu:
                     vk_eksizlik_yeni,vk_lc_kavramsal_tutarlilik,vk_kavramsal_yeni,vk_tanim_kumesi_yeni,vk_format_tutarlilik_yeni,vk_topoloji_tutarlilik_yeni,
                     vk_pa_mutlak_dogruluk,vk_konumsal_mutlak_dogruluk_yeni,vk_konumsal_bagil_dogruluk_yeni,vk_konumsal_raster_veri_konum_yeni,
                     vk_ta_ilgili_zamandaki_dogruluk,vk_zamansal_ilgili_yeni,vk_zamansal_tutarlilik_yeni,vk_zamansal_gecerlilik_yeni,vk_tema_siniflandirma_dogrulugu,
-                    vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama):
+                    vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama, k_adi):
         self.bakanlik = bakanlik
         self.adi = adi.rstrip()
         self.birim = birim
+        self.k_adi = k_adi
 
         # tucbs temasinin kod tablosundan çekilmesi
         if tucbs_katmani is not None:
@@ -160,10 +161,10 @@ class CografiVeriFormu:
     
     def createExcelFile(self):
         try:
-            excelPath = "created_excels"+"\\"+self.adi+"\\"+u"CV-SP-MV"
-            excelName = u"TUCBS-CVAF-CoğrafiVeriAnalizFormu.xlsx"
-            temaName = u"Tema Yok"
-            katmanName = u"Katman Yok"
+            excelPath = "created_excels"+"\\"+self.k_adi.decode('utf-8')+"\\"+u"CVSPMV"
+            excelName = u"CVAF.xlsx"
+            temaName = u"Yok"
+            katmanName = u"Yok"
             if self.tucbs_veri_temasi is not None:
                 temaName = self.tucbs_veri_temasi.decode('utf-8')
             elif self.inspire_katmani is not None:
@@ -174,7 +175,7 @@ class CografiVeriFormu:
                 if '/' in katmanName:
                     katmanName = katmanName.replace('/', '_')
             else:
-                katmanName = u"Katman Yok"
+                katmanName = u"Yok"
 
             fullFolderPath = excelPath+"\\"+temaName.rstrip()+"\\"+katmanName
             if os.path.isdir(unicode(fullFolderPath)) is False:

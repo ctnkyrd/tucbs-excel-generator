@@ -5,10 +5,11 @@ cnn = Connection()
 
 class DonanimYazilimFormu:
     def __init__(self, bakanlik, adi, birim, fileCount, sunucu_yeterli, sunucu_yetersiz_aciklama, kamunet_agina_bagli, kamunet_agina_bagli_degil_aciklama, 
-                    ipsecvpn_uygun, ipsecvpn_uygunsuz_aciklama, ipsecvpn_bagli):
+                    ipsecvpn_uygun, ipsecvpn_uygunsuz_aciklama, ipsecvpn_bagli, k_adi):
 
         self.bakanlik = bakanlik
         self.adi = adi.rstrip()
+        self.k_adi = k_adi
         self.birim = birim
         self.fileCount = fileCount
         self.sunucu_yeterli = sunucu_yeterli
@@ -22,11 +23,11 @@ class DonanimYazilimFormu:
 
     def createExcelFile(self):
         try:
-            excelPath = "created_excels"+"\\"+self.adi
+            excelPath = "created_excels"+"\\"+self.k_adi.decode('utf-8')
             if self.fileCount == 0:
-                excelName = u"TUCBS- DYAGAF-DonanımYazılımAğveGüvenlikAnalizFormu.xlsx"
+                excelName = u"DYAGAF.xlsx"
             else:
-                excelName = u"TUCBS- DYAGAF-DonanımYazılımAğveGüvenlikAnalizFormu_"+str(self.fileCount)+".xlsx"
+                excelName = u"DYAGAF_"+str(self.fileCount)+".xlsx"
 
             fullFolderPath = excelPath
 
