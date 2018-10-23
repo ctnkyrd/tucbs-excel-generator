@@ -323,11 +323,7 @@ class ServisPaylasimFormu:
             worksheet.merge_range('A21:K21', u'Servis Paylaşımı', header_format)
             worksheet.merge_range('A22:A25', '')
             if self.spoid > 0:
-                worksheet.write_rich_string('A22', 
-                                            text_format, u'Servis Paylaşımı Var Mı? Evet(', 
-                                            data_format_c, u'X', 
-                                            merge_format, u') Hayır( )', 
-                                            merge_format)                
+                worksheet.write_rich_string('A22', text_format, u'Servis Paylaşımı Var Mı? Evet(', data_format_c, u'X', merge_format, u') Hayır( )', merge_format)                
             else:
                 worksheet.write_rich_string('A22', text_format, u'Servis Paylaşımı Var Mı? Evet( ) Hayır(', data_format_c, u'X', merge_format, u')', merge_format)
             worksheet.merge_range('B22:C25', u'Hayır ise Sebebi', merge_format)
@@ -346,7 +342,7 @@ class ServisPaylasimFormu:
                 worksheet.write_rich_string('D24', text_format, u'Donanım Kaynaklı (', data_format_c, u'X', merge_format, u')', text_format)
             else:
                 worksheet.write('D24', u'Donanım Kaynaklı ( )', text_format)
-            worksheet.merge_range('D25:K25', self.sp_olmamasi_diger.decode('utf-8') + u' ' + self.sp_olmamasi_aciklama.decode('utf-8'), merge_format)
+            worksheet.merge_range('D25:K25', self.sp_olmamasi_diger.decode('utf-8') + u' ' + self.sp_olmamasi_aciklama.decode('utf-8'), data_format_r)
             
             
             worksheet.write('A26', u'Evet ise Servis Paylaşılan Kurumlar', merge_format)
@@ -382,13 +378,6 @@ class ServisPaylasimFormu:
                         worksheet.merge_range('D'+str(last_starting_line)+':G'+str(last_starting_line), 'Yok', data_format_c)
                     worksheet.merge_range('H'+str(last_starting_line)+':K'+str(last_starting_line), '', merge_format)
                     last_starting_line += 1
-
-                    
-            
-
-
-
-
 
             # Calisma Grubu
             worksheet.merge_range('A'+str(last_starting_line)+':K'+str(last_starting_line), '')
