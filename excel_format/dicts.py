@@ -82,7 +82,7 @@ dict_organizasyon_birimleri = {
     'personel_yeterli'                      : 16,
     'personel_yetersizlik_kriterleri'       : 17,
     'personel_yetersizlik_oneri'            : 18,
-    'cbs_farkindaligi_vari'                 : 19,
+    'cbs_farkindaligi_var'                  : 19,
     'sorunlar'                              : 20,
     'cbs_birim_adi'                         : 21,
     'yapilanma_olcegi'                      : 22 ,
