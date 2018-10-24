@@ -1,0 +1,1 @@
+Özet tablolar için kod ayrýca çalýþtýrýlmalýdýr
