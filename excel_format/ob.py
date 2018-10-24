@@ -70,7 +70,7 @@ class OrganizasyonBirimiFormu:
 
             just_border = wb.add_format()
             just_border.set_border()
-
+            just_border.set_align('vcenter')
             merge_format = wb.add_format({
                 'bold': 1,
                 'border': 1,
@@ -213,6 +213,11 @@ class OrganizasyonBirimiFormu:
                 ws.write_rich_string('B11',light_header_format, u'Hayır ( ', data_format_c,u'X', light_header_format, u' )')
                 ws.write('B10', u'Evet (    )',light_header_format)
             
+
+            if self.cbs_yeni_birim_gorusler is not None:
+                ws.write('C10', self.cbs_yeni_birim_gorusler.decode('utf-8'), data_format_r)
+
+            
             if self.cbs_birim_adi is not None:
                 ws.merge_range('B12:H12', self.cbs_birim_adi.decode('utf-8'), data_format_r)
             else:
@@ -283,12 +288,12 @@ class OrganizasyonBirimiFormu:
             ws.merge_range('D24:H25', u'', light_header_format)
 
             if self.personel_yetersizlik_oneri is not None:
-                ws.write('D24', self.personel_yetersizlik_oneri.decode('utf-8'), data_format_c)
+                ws.write('D24', self.personel_yetersizlik_oneri.decode('utf-8'), data_format_r)
             
             if self.sorunlar is not None:
-                ws.merge_range('B26:H26', self.sorunlar.decode('utf-8'), data_format_c)
+                ws.merge_range('B26:H26', self.sorunlar.decode('utf-8'), data_format_r)
             else:
-                ws.write('B26:H26', u'', data_format_c)
+                ws.merge_range('B26:H26', u'', data_format_c)
                 
 
                 

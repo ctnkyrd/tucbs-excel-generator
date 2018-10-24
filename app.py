@@ -88,7 +88,7 @@ for i in kurum:
         
         mvf = MetaveriFormu(katman[mvdict['katman_adi']],katman[mvdict['mv_metaveri_var']],katman[mvdict['mv_standart']],
                             katman[mvdict['mv_yayinlaniyor']],katman[mvdict['mv_cbs_gm_paylasim_var']],katman[mvdict['metaveri_aciklama']],
-                            newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']], newKurum.k_adi)
+                            newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']], newKurum.k_adi, katman[cvdict['katman_durumu']])
 
         spf = ServisPaylasimFormu(katman[spdict['katman_adi']], katman[spdict['servis_var']], katman[spdict['servis_ogc_uyumlu']],
                                   katman[spdict['servis_atlas_uyumlu']], katman[spdict['servis_wms_var']], katman[spdict['servis_wfs_var']],

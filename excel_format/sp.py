@@ -310,7 +310,11 @@ class ServisPaylasimFormu:
 
             worksheet.write('A17', u'Servis Olmaması Durumu Açıklaması', text_format)
             if self.servis_aciklama is not None:
+                h = 15*len(self.servis_aciklama)/60
                 worksheet.merge_range('B17:K17', self.servis_aciklama.decode('utf-8'), data_format_r)
+                if h < 28:
+                    h = 28
+                worksheet.set_row(16, h)
             else:
                 worksheet.merge_range('B17:K17', u'(Servis Mevcut Değil İse Sebebi Burada Tariflenecektir)', comment_format_r)
             worksheet.write('A18', u'OGC Uyumlu Olmamasının Açıklaması', text_format)
@@ -342,6 +346,12 @@ class ServisPaylasimFormu:
                 worksheet.write_rich_string('D24', text_format, u'Donanım Kaynaklı (', data_format_c, u'X', merge_format, u')', text_format)
             else:
                 worksheet.write('D24', u'Donanım Kaynaklı ( )', text_format)
+            
+            if (len(self.sp_olmamasi_diger) + len(self.sp_olmamasi_aciklama)) > 50:
+                h = 15*len((self.sp_olmamasi_diger) + (self.sp_olmamasi_aciklama))/50
+                if h < 28.5:
+                    h = 28.5
+                worksheet.set_row(14, h)
             worksheet.merge_range('D25:K25', self.sp_olmamasi_diger.decode('utf-8') + u' ' + self.sp_olmamasi_aciklama.decode('utf-8'), data_format_r)
             
             

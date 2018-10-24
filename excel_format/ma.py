@@ -224,7 +224,8 @@ class MevzuatAnalizFormu:
                     last_starting_line += 1
 
             if last_starting_line == 15:
-                ws.set_row(14, 5)
+                ws.set_row(14, 15)
+                # ws.merge_range('A'+str(last_starting_line)+':F'str(last_starting_line),u'', data_format_c)
                 last_starting_line += 1
                 ws.set_row(last_starting_line, 42)
             else:

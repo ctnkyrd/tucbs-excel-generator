@@ -5,9 +5,9 @@ cnn = Connection()
 
 class MetaveriFormu:
     def __init__(self, katman_adi, mv_metaveri_var, mv_standart, mv_yayinlaniyor, mv_cbs_gm_paylasim_var, metaveri_aciklama,
-                adi, tucbs_katmani, inspire_katmani, k_adi):
+                adi, tucbs_katmani, inspire_katmani, k_adi, katman_durumu):
         
-        
+        self.katman_durumu = katman_durumu
         self.katman_adi = katman_adi.rstrip()
         self.k_adi = k_adi
         self.metaveri_aciklama = metaveri_aciklama
@@ -152,25 +152,37 @@ class MetaveriFormu:
             if self.mv_metaveri_var:
                 worksheet.merge_range('E9:P9', u'Evet', data_format_r)
             else:
-                worksheet.merge_range('E9:P9', u'Hayır', data_format_r)            
+                if self.katman_durumu:
+                    worksheet.merge_range('E9:P9', u'Hayır', data_format_r)
+                else:
+                    worksheet.merge_range('E9:P9', u'', data_format_r)
 
             worksheet.merge_range('A10:D10', u'Metaveri Hangi Standarta Uygun Üretiliyor?', text_format)
             if self.mv_standart is not None:
                 worksheet.merge_range('E10:P10', self.mv_standart.decode('utf-8'), data_format_r)
             else:
-                worksheet.merge_range('E10:P10', u'', data_format_r)
+                if self.katman_durumu:
+                    worksheet.merge_range('E10:P10', u'', data_format_r)
+                else:
+                    worksheet.merge_range('E10:P10', u'', data_format_r)
 
             worksheet.merge_range('A11:D11', u'Metaveri Yayınlanıyor Mu?', text_format)
             if self.mv_yayinlaniyor:
                 worksheet.merge_range('E11:P11', u'Evet', data_format_r)
             else:
-                worksheet.merge_range('E11:P11', u'Hayır', data_format_r)
+                if self.katman_durumu:
+                    worksheet.merge_range('E11:P11', u'Hayır', data_format_r)
+                else:
+                    worksheet.merge_range('E11:P11', u'', data_format_r)
 
             worksheet.merge_range('A12:D12', u'CBS Genel Müdürlüğü ile Paylaşımı Var Mı? ', text_format)
             if self.mv_cbs_gm_paylasim_var:
                 worksheet.merge_range('E12:P12', u'Evet', data_format_r)
             else:
-                worksheet.merge_range('E12:P12', u'Hayır', data_format_r)
+                if self.katman_durumu:
+                    worksheet.merge_range('E12:P12', u'Hayır', data_format_r)
+                else:
+                    worksheet.merge_range('E12:P12', u'', data_format_r)
 
             worksheet.merge_range('A13:D13', u'Açıklama', text_format)
             if self.metaveri_aciklama is not None:

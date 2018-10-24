@@ -206,7 +206,7 @@ class CografiVeriFormu:
             ws.set_column('P:P', 7.14)
             ws.set_column('Q:Q', 1.19)
             ws.set_column('R:R', 14.71)
-            ws.set_column('S:S', 11.43)
+            ws.set_column('S:S', 19)
             ws.set_column('T:T', 18.57)
             ws.set_column('U:U', 16.23)
             ws.set_row(5, 21)
@@ -216,7 +216,7 @@ class CografiVeriFormu:
             ws.set_row(17, 21)
             ws.set_row(20, 24.75)
             ws.set_row(21, 14.25)
-            ws.set_row(22, 75)
+            ws.set_row(22, 100)
             ws.set_row(24, 5)
             ws.set_row(25, 21)
             ws.set_row(28, 5)
@@ -361,8 +361,8 @@ class CografiVeriFormu:
             ws.merge_range('A21:C22', u'',f_border_center)
             ws.merge_range('D21:F22', u'',f_border_center)
             ws.merge_range('G21:I22', u'',f_border_center)
-            ws.merge_range('J21:K22', u'',f_border_center)
-            ws.merge_range('L21:P22', u'',f_border_center)
+            ws.merge_range('J21:M22', u'',f_border_center)
+            ws.merge_range('N21:P22', u'',f_border_center)
             ws.merge_range('Q21:R22', u'',f_border_center)
             ws.merge_range('S21:S22', u'',f_border_center)
             ws.merge_range('T21:T22', u'',f_border_center)
@@ -371,7 +371,7 @@ class CografiVeriFormu:
             ws.write_rich_string('D21', merge_small_header, u'Veri Türü', f_comment, u' (Dijital Veri / Basılı Veri)', f_border_center)
             ws.write_rich_string('G21', merge_small_header, u'Veri Tipi', f_comment, u' (Coğrafi Veri / Sözel Veri)', f_border_center)
             ws.write('J21', u'Veri Adetleri', merge_small_header)
-            ws.write('L21', u'Veri Formatı', merge_small_header)
+            ws.write('N21', u'Veri Formatı', merge_small_header)
             ws.write('Q21', u'Projeksiyon/Datum Bilgisi', merge_small_header)
             ws.write('S21', u'Ölçek/Düzey/Çözünürlük', merge_small_header)
             ws.write_rich_string('T21', merge_small_header, u'Veri Güncelleme Durumu', f_comment, u' (Güncelleme Sıklığı)', f_border_center)
@@ -391,14 +391,14 @@ class CografiVeriFormu:
                 ws.merge_range('G23:I23', u'', f_data_emty)
             # veri adetleri
             if self.veri_adedi is not None:
-                ws.merge_range('J23:K23',self.veri_adedi.decode('utf-8'), f_data_center)
+                ws.merge_range('J23:M23',self.veri_adedi.decode('utf-8'), f_data_center)
             else:
-                ws.merge_range('J23:K23', u'', f_data_emty)
+                ws.merge_range('J23:M23', u'', f_data_emty)
             # veri formati
             if self.veri_formati is not None:
-                ws.merge_range('L23:P23',self.veri_formati.decode('utf-8'), f_data_center)
+                ws.merge_range('N23:P23',self.veri_formati.decode('utf-8'), f_data_center)
             else:
-                ws.merge_range('L23:P23', u'', f_data_emty)
+                ws.merge_range('N23:P23', u'', f_data_emty)
             # projeksyion datum
             if self.projeksiyon is not None or self.datum is not None:
                 ws.merge_range('Q23:R23',self.projeksiyon.decode('utf-8') + " " + self.datum.decode('utf-8'), f_data_center)
@@ -422,8 +422,12 @@ class CografiVeriFormu:
 
             # katman aciklama
             if self.veri_envanteri_aciklama is not None:
-                ws.set_row(23, 30)
-                ws.merge_range('A24:U24', self.veri_envanteri_aciklama.decode('utf-8'), f_data_left)
+                h = 15*len(self.veri_envanteri_aciklama)/100
+                ws.merge_range('A24:U24', u'', merge_small_header2)                
+                ws.write('A24', self.veri_envanteri_aciklama.decode('utf-8'), f_data_center)
+                if h < 15:
+                    h = 15
+                ws.set_row(23, h)
             else:
                 ws.merge_range('A24:U24', u'', merge_small_header2)
                 ws.set_row(23, 5)
@@ -465,7 +469,11 @@ class CografiVeriFormu:
             ws.merge_range('N18:U18', u'Evet ( )    Hayır( )', merge_small_header)
 
             if self.katman_aciklama is not None:
+                h = 15*len(self.katman_aciklama)/100
                 ws.merge_range('A19:U19', self.katman_aciklama.decode('utf-8'), f_data_left)
+                if h < 15:
+                    h = 15
+                ws.set_row(18, h)
             else:
                 ws.merge_range('A19:U19', u'', f_data_left)
                 ws.set_row(18, 5)
