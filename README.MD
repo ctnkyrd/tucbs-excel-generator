@@ -12,3 +12,8 @@ DB_DATABASE=tucbsdata
 DB_USERNAME=postgres
 DB_PASSWORD=kalman
 ```
+### install required packages
+
+```batch
+pip install -r requirements.txt
+```
