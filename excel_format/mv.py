@@ -14,7 +14,7 @@ class MetaveriFormu:
         self.mv_metaveri_var = mv_metaveri_var
 
         if mv_standart is not None:
-            self.mv_standart = cnn.getsinglekoddata('kod_ek_2_meta_veri_standart', 'kod', 'objectid='+str(mv_standart))
+            self.mv_standart = mv_standart
         else:
             self.mv_standart = None
 
@@ -97,6 +97,13 @@ class MetaveriFormu:
                 'valign': 'vcenter'})
             text_format.set_text_wrap()
 
+            text_format_r = workbook.add_format({
+                'bold': 1,
+                'border': 1,
+                'align': 'right',
+                'valign': 'vcenter'})
+            text_format.set_text_wrap()
+
             data_format_r = workbook.add_format({
                 'font_color': 'red',
                 'bold': 1,
@@ -150,39 +157,39 @@ class MetaveriFormu:
 
             worksheet.merge_range('A9:D9', u'Metaveri Var Mı?', text_format)
             if self.mv_metaveri_var:
-                worksheet.merge_range('E9:P9', u'Evet', data_format_r)
+                worksheet.merge_range('E9:P9', '', data_empty)
+                worksheet.write_rich_string('E9', text_format, u'Evet(', data_format_c, u'X', merge_format, u') Hayır( )', text_format_r)
             else:
-                if self.katman_durumu:
-                    worksheet.merge_range('E9:P9', u'Hayır', data_format_r)
-                else:
-                    worksheet.merge_range('E9:P9', u'', data_format_r)
+                worksheet.merge_range('E9:P9', '', data_empty)
+                worksheet.write_rich_string('E9', text_format, u'Evet( ) Hayır(', data_format_c, u'X', merge_format, u')', text_format_r)
 
             worksheet.merge_range('A10:D10', u'Metaveri Hangi Standarta Uygun Üretiliyor?', text_format)
             if self.mv_standart is not None:
-                worksheet.merge_range('E10:P10', self.mv_standart.decode('utf-8'), data_format_r)
-            else:
-                if self.katman_durumu:
-                    worksheet.merge_range('E10:P10', u'', data_format_r)
+                if self.mv_standart == 1:
+                    worksheet.merge_range('E10:P10', '', data_format_r)
+                    worksheet.write_rich_string('E10', text_format, u'TUCBS (', data_format_c, u'X', merge_format, u') Ulusal Metaveri Profili( )', text_format_r)
+                elif self.mv_standart == 2:
+                    worksheet.write_rich_string('E10', text_format, u'TUCBS( ) Ulusal Metaveri Profili(', data_format_c, u'X', merge_format, u')', text_format_r)
                 else:
-                    worksheet.merge_range('E10:P10', u'', data_format_r)
+                    worksheet.merge_range('E10:P10', u'TUCBS( ) Ulusal Metaveri Profili( )', text_format_r)
+            else:
+                worksheet.merge_range('E10:P10', u'TUCBS( ) Ulusal Metaveri Profili( )', text_format_r)
 
             worksheet.merge_range('A11:D11', u'Metaveri Yayınlanıyor Mu?', text_format)
             if self.mv_yayinlaniyor:
-                worksheet.merge_range('E11:P11', u'Evet', data_format_r)
+                worksheet.merge_range('E11:P11', '', data_empty)
+                worksheet.write_rich_string('E11', text_format, u'Evet(', data_format_c, u'X', merge_format, u') Hayır( )', text_format_r)
             else:
-                if self.katman_durumu:
-                    worksheet.merge_range('E11:P11', u'Hayır', data_format_r)
-                else:
-                    worksheet.merge_range('E11:P11', u'', data_format_r)
+                worksheet.merge_range('E11:P11', '', data_empty)
+                worksheet.write_rich_string('E11', text_format, u'Evet( ) Hayır(', data_format_c, u'X', merge_format, u')', text_format_r)
 
             worksheet.merge_range('A12:D12', u'CBS Genel Müdürlüğü ile Paylaşımı Var Mı? ', text_format)
             if self.mv_cbs_gm_paylasim_var:
-                worksheet.merge_range('E12:P12', u'Evet', data_format_r)
+                worksheet.merge_range('E12:P12', '', data_empty)
+                worksheet.write_rich_string('E12', text_format, u'Evet(', data_format_c, u'X', merge_format, u') Hayır( )', text_format_r)
             else:
-                if self.katman_durumu:
-                    worksheet.merge_range('E12:P12', u'Hayır', data_format_r)
-                else:
-                    worksheet.merge_range('E12:P12', u'', data_format_r)
+                worksheet.merge_range('E12:P12', '', data_empty)
+                worksheet.write_rich_string('E12', text_format, u'Evet( ) Hayır(', data_format_c, u'X', merge_format, u')', text_format_r)
 
             worksheet.merge_range('A13:D13', u'Açıklama', text_format)
             if self.metaveri_aciklama is not None:

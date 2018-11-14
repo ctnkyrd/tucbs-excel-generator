@@ -185,9 +185,9 @@ class MevzuatAnalizFormu:
             ws.write('F14', u'Etkilediği Tema/Katman', header_format)
 
             if self.mevzuat_kisitlama:
-                ws.merge_range('B11:F11', u'Evet', data_format_r)
+                ws.merge_range('B11:F11', u'Evet. Kurum tarafından veri paylaşımına engel mevzuat kısıtlamasının olduğu ifade edilmiştir.', data_format_r)
             else:
-                ws.merge_range('B11:F11', u'Hayır', data_format_r)
+                ws.merge_range('B11:F11', u'Hayır. Kurum tarafından veri paylaşımına engel herhangi bir mevzuat kısıtlamasının bulunmadığı ifade edilmiştir.', data_format_r)
 
             last_starting_line = 15
 

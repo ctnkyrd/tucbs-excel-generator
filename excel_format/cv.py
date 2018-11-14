@@ -127,7 +127,7 @@ class CografiVeriFormu:
         self.vk_ta_ilgili_zamandaki_dogruluk = vk_ta_ilgili_zamandaki_dogruluk
 
         if vk_zamansal_ilgili_yeni is not None:
-            self.vk_zamansal_ilgili_yeni = cnn.getsinglekoddata('kod_ek_2_zamansal_dogruluk', 'kod', 'objectid='+str(vk_zamansal_ilgili_yeni))
+            self.vk_zamansal_ilgili_yeni = cnn.getsinglekoddata('kod_ek_2_ilgili_zamandaki_dogruluk', 'kod', 'objectid='+str(vk_zamansal_ilgili_yeni))
         else:
             self.vk_zamansal_ilgili_yeni = None
         
@@ -270,6 +270,7 @@ class CografiVeriFormu:
             f_data_right.set_align('right')
             f_data_right.set_border()
             f_data_right.set_text_wrap()
+            f_data_right.set_valign('vcenter')
 
             f_data_left = wb.add_format()
             f_data_left.set_bold()
@@ -277,6 +278,7 @@ class CografiVeriFormu:
             f_data_left.set_align('left')
             f_data_left.set_border()
             f_data_left.set_text_wrap()
+            f_data_left.set_valign('vcenter')
 
             f_data_center = wb.add_format()
             f_data_center.set_bold()
@@ -311,6 +313,7 @@ class CografiVeriFormu:
             f_comment.set_italic()
             f_comment.set_font_size(9)
             f_comment.set_align('right')
+            f_comment.set_valign('vcenter')
 
             f_comment_left = wb.add_format()
             f_comment_left.set_border()
@@ -657,33 +660,33 @@ class CografiVeriFormu:
                     ws.merge_range('G10:U10', '', f_data_emty)
 
                 if self.katman_durumu:
-                    ws.write_rich_string('R12', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',f_border)
-                    ws.write('S12', u'Yok( )',merge_small_header2) 
+                    ws.write_rich_string('R12', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                    ws.write('S12', u'Yok( )',merge_small_header) 
                 else:
-                    ws.write('R12', u'Var( )',merge_small_header2) 
-                    ws.write_rich_string('S12', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',f_border)
+                    ws.write('R12', u'Var( )',merge_small_header) 
+                    ws.write_rich_string('S12', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',merge_small_header)
                 
                 if self.tucbs_uygunluk:
-                    ws.write_rich_string('T12', merge_small_header2,u'Uygun(', f_red, 'X', merge_small_header2,')',f_border)
-                    ws.write('U12', u'Uygun Değil( )',merge_small_header2) 
+                    ws.write_rich_string('T12', merge_small_header2,u'Uygun(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                    ws.write('U12', u'Uygun Değil( )',merge_small_header) 
                 else:
-                    ws.write('T12', u'Uygun( )',merge_small_header2) 
-                    ws.write_rich_string('U12', merge_small_header2,u'Uygun Değil(', f_red, 'X', merge_small_header2,')',f_border)
+                    ws.write('T12', u'Uygun( )',merge_small_header) 
+                    ws.write_rich_string('U12', merge_small_header2,u'Uygun Değil(', f_red, 'X', merge_small_header2,')',merge_small_header)
             else:
-                ws.merge_range('G10:U10', u'', merge_small_header2)
-                ws.write('R12', u'Var( )',merge_small_header2) 
-                ws.write('S12', u'Yok( )',merge_small_header2) 
-                ws.write('T12', u'Uygun( )',merge_small_header2) 
-                ws.write('U12', u'Uygun Değil( )',merge_small_header2) 
-                ws.merge_range('G12:Q12', u'', merge_small_header2)
+                ws.merge_range('G10:U10', u'', merge_small_header)
+                ws.write('R12', u'Var( )',merge_small_header) 
+                ws.write('S12', u'Yok( )',merge_small_header) 
+                ws.write('T12', u'Uygun( )',merge_small_header) 
+                ws.write('U12', u'Uygun Değil( )',merge_small_header) 
+                ws.merge_range('G12:Q12', u'', merge_small_header)
 
             if self.tucbs_tema_harici:
                 if self.katman_durumu:
-                    ws.write_rich_string('G16', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',f_border)
-                    ws.write('K16', u'Yok( )',merge_small_header2) 
+                    ws.write_rich_string('G16', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                    ws.write('K16', u'Yok( )',merge_small_header) 
                 else:
-                    ws.write_rich_string('K16', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',f_border)
-                    ws.write('G16', u'Var( )',merge_small_header2) 
+                    ws.write_rich_string('K16', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                    ws.write('G16', u'Var( )',merge_small_header) 
                 
                 ws.merge_range('N16:U16', self.katman_adi.decode('utf-8'), f_data_right)
                 
@@ -695,7 +698,7 @@ class CografiVeriFormu:
                 if self.inspire_uygunluk:
                     ws.write_rich_string('N18', merge_small_header2,u'Evet (', f_red, u'X', merge_small_header2,u')    Hayır( )',f_border_center)
                 else: 
-                    ws.write_rich_string('N18', merge_small_header2,u'Evet ( )     Hayır (', f_red, u'X', merge_small_header2,')',f_border_center)
+                    ws.write_rich_string('N18', merge_small_header2,u'Evet ( ) Hayır (', f_red, u'X', merge_small_header2,')',f_border_center)
             else:
                 pass
                 

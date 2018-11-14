@@ -49,7 +49,7 @@ class ServisPaylasimFormu:
             self.tucbs_veri_temasi = None
         if self.servis_wms_var and self.servis_wfs_var is False:
             self.servis_turu = self.servis_turu + 'WMS'
-        if self.servis_wms_var is False and self.servis_wfs_var:
+        elif self.servis_wms_var is False and self.servis_wfs_var:
             self.servis_turu = self.servis_turu + 'WFS'
         elif self.servis_wms_var and self.servis_wfs_var:
             self.servis_turu = self.servis_turu + 'WMS + WFS'
@@ -57,10 +57,10 @@ class ServisPaylasimFormu:
             self.servis_turu = ''
         if self.servis_wms_version is not None and self.servis_wfs_version is None:
             self.servis_version = self.servis_wms_version
-        if self.servis_wms_version is None and self.servis_wfs_version is not None:
+        elif self.servis_wms_version is None and self.servis_wfs_version is not None:
             self.servis_version = self.servis_wfs_version
         elif self.servis_wms_version is not None and self.servis_wfs_version is not None:
-            self.servis_version = self.servis_wms_version + ' - ' + self.servis_wfs_version
+            self.servis_version = 'WMS: '+self.servis_wms_version + '\n' + 'WFS: '+self.servis_wfs_version
         else:
             self.servis_version = ''
         self.xoid = xoid
@@ -107,7 +107,7 @@ class ServisPaylasimFormu:
 
             worksheet.set_column('A:A', 41.43)
             worksheet.set_column('B:B', 13.43)
-            worksheet.set_column('C:C', 11.29)
+            worksheet.set_column('C:C', 15)
             worksheet.set_column('D:D', 10.43)
             worksheet.set_column('E:E', 14.29)
             worksheet.set_column('F:F', 8.14)
@@ -234,7 +234,7 @@ class ServisPaylasimFormu:
             if self.servis_var:
                 worksheet.write('B9', u'Var', data_format_c)
                 if self.servis_turu is not None:
-                    worksheet.write('C9', self.servis_turu.decode('utf-8'), data_format_c)
+                    worksheet.write_rich_string('C9', data_format_c, self.servis_turu.decode('utf-8'), data_format_c, '\n'+self.servis_yayin_platformu.decode('utf-8')+u' yayın platformu kullanılmaktadır', data_format_c)
                 else:
                     worksheet.write('C9', u'', data_empty)
                 if self.servis_version is not None:
@@ -249,10 +249,7 @@ class ServisPaylasimFormu:
                     worksheet.merge_range('G9:H9', u'Uyumlu', data_format_c)
                 else:
                     worksheet.merge_range('G9:H9', u'Bilinmiyor', data_format_c)
-                if self.servis_yayin_platformu is not None:
-                    worksheet.merge_range('I9:K9', self.servis_yayin_platformu.decode('utf-8'), data_format_c)
-                else:
-                    worksheet.merge_range('I9:K9', u'', data_empty)
+                worksheet.merge_range('I9:K9', u'-', data_format_c)
 
             else:
                 worksheet.write('B9', u'Yok', data_format_c)
