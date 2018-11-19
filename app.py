@@ -13,11 +13,22 @@ from excel_format.ob import OrganizasyonBirimiFormu
 from excel_format.ma import MevzuatAnalizFormu
 from excel_format.sp import ServisPaylasimFormu
 
-
+user_input = 0
 
 # create connection
 cnn = Connection()
-kurum = cnn.getlistofdata('kurum','objectid','analiz_tamamlandi_first is true')
+kurumListe = cnn.getlistofdata('kurum','objectid, adi','analiz_tamamlandi_first is true')
+
+for i in kurumListe:
+    print i[0], "-----" , i[1].decode('utf-8')
+
+user_input = raw_input("Kurum ID'sini giriniz(Tum Kurumlar icin -1): ")
+
+if int(user_input) == -1:
+    kurum = cnn.getlistofdata('kurum', 'objectid', 'analiz_tamamlandi_first is true')
+else:
+    kurum = cnn.getlistofdata('kurum', 'objectid', 'objectid = '+str(user_input))
+
 
 cvdict = dict_veri_katmani
 mvdict = dict_metaveri_katmani

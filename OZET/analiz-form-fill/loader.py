@@ -10,10 +10,7 @@ cnn = Connection()
 
 
 kurumName = "Hata"
-folderLocation = "/Forms"
-documentName = kurumName
 
-workbook = xlsxwriter.Workbook('Forms/'+kurumName.rstrip()+'.xlsx')
 
 
 
@@ -174,13 +171,29 @@ def correctSheetName(sheetName):
         return sheetName
 
 try:
+
+
+    kurumListe = cnn.getlistofdata('kurum','objectid, adi','analiz_tamamlandi_first is true')
+
+    for i in kurumListe:
+        print i[0], "-----" , i[1].decode('utf-8')
+
+    user_input = raw_input("Kurum ID'sini giriniz(Tum Kurumlar icin -1): ")
     conn = psycopg2.connect("dbname='tucbsdata' user='postgres' host='192.168.30.136' password='Ankara123'")
     cur = conn.cursor()
-    cur.execute("""select objectid, adi from kurum where analiz_tamamlandi_first = true""")
+
+    if int(user_input) == -1:
+        cur.execute("select objectid, adi from kurum where analiz_tamamlandi_first = true")
+    else:
+        cur.execute("select objectid, adi from kurum where analiz_tamamlandi_first = true and objectid = "+ str(user_input))
     
     allKurum = cur.fetchall()
     for kurum in allKurum:
         kurumName = kurum[1].decode('utf-8')
+        folderLocation = "/Forms"
+        documentName = kurumName
+
+        workbook = xlsxwriter.Workbook('Forms/'+kurumName.rstrip()+'.xlsx')
         kurumId = kurum[0]
         cur_ek2 = conn.cursor()
         cur_ek2.execute("""select objectid from ek_2_cografi_veri_analizi where kurum = %s and geodurum is true""", [kurumId])
