@@ -10,11 +10,15 @@ class CografiVeriFormu:
                     vk_eksizlik_yeni,vk_lc_kavramsal_tutarlilik,vk_kavramsal_yeni,vk_tanim_kumesi_yeni,vk_format_tutarlilik_yeni,vk_topoloji_tutarlilik_yeni,
                     vk_pa_mutlak_dogruluk,vk_konumsal_mutlak_dogruluk_yeni,vk_konumsal_bagil_dogruluk_yeni,vk_konumsal_raster_veri_konum_yeni,
                     vk_ta_ilgili_zamandaki_dogruluk,vk_zamansal_ilgili_yeni,vk_zamansal_tutarlilik_yeni,vk_zamansal_gecerlilik_yeni,vk_tema_siniflandirma_dogrulugu,
-                    vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama, k_adi):
+                    vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama, k_adi, geom_yeni):
         self.bakanlik = bakanlik
         self.adi = adi.rstrip()
         self.birim = birim
         self.k_adi = k_adi
+        if geom_yeni is not None:
+            self.geom_yeni = geom_yeni
+        else:
+            self.geom_yeni = u''
 
         # tucbs temasinin kod tablosundan çekilmesi
         if tucbs_katmani is not None:
@@ -399,7 +403,7 @@ class CografiVeriFormu:
                 ws.merge_range('J23:M23', u'', f_data_emty)
             # veri formati
             if self.veri_formati is not None:
-                ws.merge_range('N23:P23',self.veri_formati.decode('utf-8'), f_data_center)
+                ws.merge_range('N23:P23', self.veri_formati.decode('utf-8') + "\n" + self.geom_yeni.decode('utf-8'), f_data_center)
             else:
                 ws.merge_range('N23:P23', u'', f_data_emty)
             # projeksyion datum
