@@ -105,6 +105,13 @@ class DonanimYazilimFormu:
             light_format = wb.add_format()
             light_format.set_border()
 
+            f_comment_left = wb.add_format()
+            f_comment_left.set_border()
+            f_comment_left.set_color('gray')
+            f_comment_left.set_italic()
+            f_comment_left.set_font_size(9)
+            f_comment_left.set_valign('vcenter')
+
             # Baslik
             worksheet.insert_image('A1', r"logo\csb.jpg", {'x_offset': 43,'y_offset': 7,'x_scale': 1.5})
             worksheet.merge_range('A1:A4', u'', merge_format)
@@ -190,7 +197,7 @@ class DonanimYazilimFormu:
                 worksheet.merge_range('C18:G19', self.ipsecvpn_uygunsuz_aciklama.decode('utf-8'), data_format_r)
             else:
                 worksheet.merge_range('C18:G19', u'', data_format_r)
-
+            worksheet.merge_range('A20:G20', u'(Bu Form Çevre ve Şehircilik Bakanlığı Ağ ve Güvenlik Kuralları İdareden Temin Edildikten Sonra Revize Edilmelidir)', f_comment_left)
 
             wb.close()
         except BaseException as ex:

@@ -62,7 +62,7 @@ class ServisPaylasimFormu:
         elif self.servis_wms_version is not None and self.servis_wfs_version is not None:
             self.servis_version = 'WMS: '+self.servis_wms_version + '\n' + 'WFS: '+self.servis_wfs_version
         else:
-            self.servis_version = ''
+            self.servis_version = u'Bilinmiyor'
         self.xoid = xoid
         self.spoid = cnn.getsinglekoddata("x_ek_2_servis_paylasim", "count(objectid)", "x_ek_2_tucbs_veri_katmani="+str(xoid))
         
@@ -237,10 +237,10 @@ class ServisPaylasimFormu:
                     worksheet.write_rich_string('C9', data_format_c, self.servis_turu.decode('utf-8'), data_format_c, '\n'+self.servis_yayin_platformu.decode('utf-8')+u' yayın platformu kullanılmaktadır', data_format_c)
                 else:
                     worksheet.write('C9', u'', data_empty)
-                if self.servis_version is not None:
-                    worksheet.write('D9', self.servis_version.decode('utf-8'), data_format_c)
-                else:
-                    worksheet.write('D9', u'', data_empty)   
+                #if self.servis_version is not None:
+                worksheet.write('D9', self.servis_version.decode('utf-8'), data_format_c)
+                # else:
+                #     worksheet.write('D9', u'Bilinmiyor', data_empty)   
                 if self.servis_ogc_uyumlu:
                     worksheet.merge_range('E9:F9', u'Uyumlu', data_format_c)
                 else:
@@ -249,15 +249,15 @@ class ServisPaylasimFormu:
                     worksheet.merge_range('G9:H9', u'Uyumlu', data_format_c)
                 else:
                     worksheet.merge_range('G9:H9', u'Bilinmiyor', data_format_c)
-                worksheet.merge_range('I9:K9', u'-', data_format_c)
+                worksheet.merge_range('I9:K9', u'Var', data_format_c)
 
             else:
                 worksheet.write('B9', u'Yok', data_format_c)
-                worksheet.write('C9', '', border_format)
-                worksheet.write('D9', '', border_format)
-                worksheet.merge_range('E9:F9', '', border_format)
-                worksheet.merge_range('G9:H9', '', border_format)
-                worksheet.merge_range('I9:K9', '', border_format)
+                worksheet.write('C9', '-', border_format)
+                worksheet.write('D9', '-', border_format)
+                worksheet.merge_range('E9:F9', '-', border_format)
+                worksheet.merge_range('G9:H9', '-', border_format)
+                worksheet.merge_range('I9:K9', '-', border_format)
             
             
 

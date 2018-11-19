@@ -302,7 +302,6 @@ class CografiVeriFormu:
             f_border_center.set_align('vcenter')
             f_border_center.set_text_wrap()
 
-
             f_data_emty = wb.add_format()
             f_data_emty.set_bg_color('#C5C5C5')
             f_data_emty.set_border()
@@ -320,6 +319,7 @@ class CografiVeriFormu:
             f_comment_left.set_color('gray')
             f_comment_left.set_italic()
             f_comment_left.set_font_size(9)
+            f_comment_left.set_valign('vcenter')
             
 
             ws.insert_image('A1', r"logo\csb.jpg", {'x_offset': 20,'y_offset': 7,'x_scale': 1.6})
@@ -332,11 +332,11 @@ class CografiVeriFormu:
             ws.merge_range('R3:S3', u'Revizyon Tarihi', merge_small_header)
             ws.merge_range('R4:S4', '',merge_small_header)
             ws.merge_range('T1:U4', '',merge_small_header)
-            ws.merge_range('A5:S5', '',merge_small_header)
+            ws.merge_range('A5:U5', '')
             ws.merge_range('A6:F6', u'Genel Bilgiler',merge_header_format2)
             ws.merge_range('G6:U6', u'TUCBS Analiz Portalı üzerinden doldurulacak',f_comment)
             ws.merge_range('G13:U14', '',merge_small_header)
-            ws.merge_range('A15:S15', '',merge_small_header)
+            ws.merge_range('A15:U15', '')
 
 
             ws.insert_image('T1', r"logo\tucbs2.jpg", {'x_offset': 10,'y_offset': 3,'x_scale': 0.5,'y_scale': 0.5})
@@ -346,7 +346,7 @@ class CografiVeriFormu:
             ws.merge_range('A9:F9', u'Birim', merge_small_header2)
             ws.merge_range('A10:F10', u'TUCBS Coğrafi Veri Teması', merge_small_header2)
             ws.merge_range('A11:F14', u'TUCBS Veri Katmanları', merge_small_header)
-            ws.merge_range('A16:F18', u'Tema Harici Üretilen Veri Katmanı Var mı?', merge_small_header)
+            ws.merge_range('A16:F18', u'TUCBS Harici Üretilen Veri Katmanı Var Mı?', merge_small_header)
             # fill form
             ws.merge_range('G7:U7', self.bakanlik, f_data_right)
             ws.merge_range('G8:U8', self.adi, f_data_right)
@@ -434,6 +434,7 @@ class CografiVeriFormu:
             else:
                 ws.merge_range('A24:U24', u'', merge_small_header2)
                 ws.set_row(23, 5)
+            ws.merge_range('A25:U25', u'')
 
             # veri teslimi
             ws.merge_range('A26:U26', u'', merge_small_header)
@@ -467,9 +468,9 @@ class CografiVeriFormu:
                 ws.merge_range('M28:S28', u'', merge_small_header)
                 ws.merge_range('T28:U28', u'', merge_small_header)
 
-            ws.merge_range('G16:J16', u'Var( )', merge_small_header2)
-            ws.merge_range('K16:M16', u'Yok( )', merge_small_header2)
-            ws.merge_range('N18:U18', u'Evet ( )    Hayır( )', merge_small_header)
+            ws.merge_range('G16:J16', u'', merge_small_header)
+            ws.merge_range('K16:M16', u'', merge_small_header)
+            ws.merge_range('N18:U18', u'', merge_small_header)
 
             if self.katman_aciklama is not None:
                 h = 15*len(self.katman_aciklama)/100
@@ -478,11 +479,11 @@ class CografiVeriFormu:
                     h = 15
                 ws.set_row(18, h)
             else:
-                ws.merge_range('A19:U19', u'', f_data_left)
+                ws.merge_range('A19:U19', u'')
                 ws.set_row(18, 5)
 
             # veri kalitesi gereksinimleri
-            ws.merge_range('A29:U29', u'', merge_small_header2)
+            ws.merge_range('A29:U29', u'')
             ws.merge_range('A30:U30', u'', merge_small_header2)
             ws.write_rich_string('A30', merge_header_format2, u'Veri Kalitesi Gereksinimleri', f_comment_left, u' (Her bir katman için sorulacaktır)', f_border)
             ws.merge_range('A31:G31', u'Amaç', merge_small_header2)
@@ -635,6 +636,7 @@ class CografiVeriFormu:
                 ws.merge_range('H54:U55', self.vk_aciklama.decode('utf-8'), f_data_right)
             else:
                 ws.merge_range('H54:U55', u'', f_border)
+            ws.merge_range('A56:U56', u'')
 
             # çalışma grubu
             ws.merge_range('A57:U57', u'Çalışma Grubu', merge_header_format2)
@@ -644,10 +646,10 @@ class CografiVeriFormu:
             ws.merge_range('A61:F61', u'Tarih', merge_small_header2)
 
             ws.merge_range('G58:U58', u'(Analiz Grubu Adı)', f_comment)
-            ws.merge_range('G59:U59', u'(Analizş Gerçekleştiren Proje Uzmanı)', f_comment)
+            ws.merge_range('G59:U59', u'(Analizi Gerçekleştiren Proje Uzmanı)', f_comment)
             ws.merge_range('G60:U60', u'(Proje Uzmanı Görevi)', f_comment)
             ws.merge_range('G61:U61', u'(Analiz Tarihi)', f_comment)
-
+            ws.merge_range('A62:U62', u'*Tespit çalışması ile ilgili olarak Coğrafi Veri Analiz Formu kapsamında elde edilen bilgiler kurum temsilcilerinin beyanına dayanmaktadır.', f_comment_left)
 
 
             if self.tucbs_tema_harici is False:
@@ -659,12 +661,12 @@ class CografiVeriFormu:
                 else:
                     ws.merge_range('G10:U10', '', f_data_emty)
 
-                if self.katman_durumu:
-                    ws.write_rich_string('R12', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',merge_small_header)
-                    ws.write('S12', u'Yok( )',merge_small_header) 
-                else:
-                    ws.write('R12', u'Var( )',merge_small_header) 
-                    ws.write_rich_string('S12', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                #if self.katman_durumu:
+                ws.write_rich_string('R12', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                ws.write('S12', u'Yok( )',merge_small_header) 
+                #else:
+                    # ws.write('R12', u'Var( )',merge_small_header) 
+                    # ws.write_rich_string('S12', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',merge_small_header)
                 
                 if self.tucbs_uygunluk:
                     ws.write_rich_string('T12', merge_small_header2,u'Uygun(', f_red, 'X', merge_small_header2,')',merge_small_header)
@@ -672,21 +674,27 @@ class CografiVeriFormu:
                 else:
                     ws.write('T12', u'Uygun( )',merge_small_header) 
                     ws.write_rich_string('U12', merge_small_header2,u'Uygun Değil(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                ws.write('G16', u'Var( )',merge_small_header) 
+                ws.write_rich_string('K16', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                if self.inspire_uygunluk:
+                    ws.write_rich_string('N18', merge_small_header2,u'Evet (', f_red, u'X', merge_small_header2,u') Hayır( )',f_border_center)
+                else: 
+                    ws.write_rich_string('N18', merge_small_header2,u'Evet ( ) Hayır (', f_red, u'X', merge_small_header2,')',f_border_center)              
             else:
                 ws.merge_range('G10:U10', u'', merge_small_header)
                 ws.write('R12', u'Var( )',merge_small_header) 
-                ws.write('S12', u'Yok( )',merge_small_header) 
+                ws.write_rich_string('S12', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',merge_small_header) 
                 ws.write('T12', u'Uygun( )',merge_small_header) 
                 ws.write('U12', u'Uygun Değil( )',merge_small_header) 
                 ws.merge_range('G12:Q12', u'', merge_small_header)
 
             if self.tucbs_tema_harici:
-                if self.katman_durumu:
-                    ws.write_rich_string('G16', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',merge_small_header)
-                    ws.write('K16', u'Yok( )',merge_small_header) 
-                else:
-                    ws.write_rich_string('K16', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',merge_small_header)
-                    ws.write('G16', u'Var( )',merge_small_header) 
+                #if self.katman_durumu:
+                ws.write_rich_string('G16', merge_small_header2,u'Var(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                ws.write('K16', u'Yok( )',merge_small_header) 
+                # else:
+                #     ws.write_rich_string('K16', merge_small_header2,u'Yok(', f_red, 'X', merge_small_header2,')',merge_small_header)
+                #     ws.write('G16', u'Var( )',merge_small_header) 
                 
                 ws.merge_range('N16:U16', self.katman_adi.decode('utf-8'), f_data_right)
                 
@@ -696,7 +704,7 @@ class CografiVeriFormu:
                     ws.merge_range('N17:U17', '', f_data_emty)
                 
                 if self.inspire_uygunluk:
-                    ws.write_rich_string('N18', merge_small_header2,u'Evet (', f_red, u'X', merge_small_header2,u')    Hayır( )',f_border_center)
+                    ws.write_rich_string('N18', merge_small_header2,u'Evet (', f_red, u'X', merge_small_header2,u') Hayır( )',f_border_center)
                 else: 
                     ws.write_rich_string('N18', merge_small_header2,u'Evet ( ) Hayır (', f_red, u'X', merge_small_header2,')',f_border_center)
             else:
