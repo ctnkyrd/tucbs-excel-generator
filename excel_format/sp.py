@@ -4,10 +4,12 @@ from pgget import Connection
 cnn = Connection()
 
 class ServisPaylasimFormu:
-    def __init__(self, katman_adi, servis_var, servis_ogc_uyumlu, servis_atlas_uyumlu, servis_wms_var, servis_wfs_var, servis_wms_version,
+    def __init__(self, bakanlik, adi, tipi, katman_adi, servis_var, servis_ogc_uyumlu, servis_atlas_uyumlu, servis_wms_var, servis_wfs_var, servis_wms_version,
                 servis_wfs_version, servis_aciklama, servis_yayin_platformu, sp_olmamasi_personel,
-                sp_olmamasi_mevzuat, sp_olmamasi_donanim, sp_olmamasi_diger, sp_olmamasi_aciklama, adi, tucbs_katmani, inspire_katmani, xoid, k_adi):
+                sp_olmamasi_mevzuat, sp_olmamasi_donanim, sp_olmamasi_diger, sp_olmamasi_aciklama, tucbs_katmani, inspire_katmani, xoid, k_adi):
         
+        self.bakanlik = bakanlik
+        self.tipi = tipi
         self.servis_turu = ''
         self.servis_version = ''
         self.katman_adi = katman_adi.rstrip()
@@ -190,6 +192,15 @@ class ServisPaylasimFormu:
                 'italic': True,
                 'border': 1,
                 'align': 'center',
+                'valign': 'vcenter'
+            })
+
+            comment_format_l = workbook.add_format({
+                'font_size': 9,
+                'font_color': 'gray',
+                'italic': True,
+                'border': 1,
+                'align': 'left',
                 'valign': 'vcenter'
             })
 
@@ -402,6 +413,11 @@ class ServisPaylasimFormu:
             last_starting_line += 1
             worksheet.write('A'+str(last_starting_line), u'Tarih', text_format)
             worksheet.merge_range('B'+str(last_starting_line)+':K'+str(last_starting_line), u'(Analiz Tarihi)', comment_format_r)
+            last_starting_line += 1
+            if self.tipi == 1:
+                worksheet.merge_range('A'+str(last_starting_line)+':K'+str(last_starting_line), self.bakanlik + ' ' + self.adi + u' ile yapılan tespit çalışması sonucu oluşturulmuştur.', comment_format_l)
+            else:
+                worksheet.merge_range('A'+str(last_starting_line)+':K'+str(last_starting_line), u'Yerel Yönetimler olarak  ' + self.adi + u' ile yapılan tespit çalışması sonucu oluşturulmuştur.', comment_format_l)
             
             workbook.close()
         except Exception as e:

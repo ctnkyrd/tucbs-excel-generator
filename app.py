@@ -96,17 +96,18 @@ for i in kurum:
                             katman[cvdict['vk_ta_ilgili_zamandaki_dogruluk']], katman[cvdict['vk_zamansal_ilgili_yeni']], katman[cvdict['vk_zamansal_tutarlilik_yeni']], 
                             katman[cvdict['vk_zamansal_gecerlilik_yeni']], katman[cvdict['vk_tema_siniflandirma_dogrulugu']], katman[cvdict['vk_tematik_siniflandirma_yeni']], 
                             katman[cvdict['vk_tematik_nicel_yeni']], katman[cvdict['vk_tematik_nicel_olmayan_yeni']], katman[cvdict['vk_aciklama']], newKurum.k_adi, katman[cvdict['geom_yeni']])
-        
-        mvf = MetaveriFormu(katman[mvdict['katman_adi']],katman[mvdict['mv_metaveri_var']],katman[mvdict['mv_standart']],
+        #pylint: disable-msg=too-many-arguments
+        mvf = MetaveriFormu(newKurum.bakanlik, newKurum.adi, newKurum.tipi, katman[mvdict['katman_adi']],katman[mvdict['mv_metaveri_var']],katman[mvdict['mv_standart']],
                             katman[mvdict['mv_yayinlaniyor']],katman[mvdict['mv_cbs_gm_paylasim_var']],katman[mvdict['metaveri_aciklama']],
-                            newKurum.adi,katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']], newKurum.k_adi, katman[cvdict['katman_durumu']])
-
-        spf = ServisPaylasimFormu(katman[spdict['katman_adi']], katman[spdict['servis_var']], katman[spdict['servis_ogc_uyumlu']],
+                            katman[cvdict['tucbs_katmani']],katman[cvdict['inspire_katmani']], newKurum.k_adi, katman[cvdict['katman_durumu']])
+        
+        #pylint: disable-msg=too-many-arguments
+        spf = ServisPaylasimFormu(newKurum.bakanlik, newKurum.adi, newKurum.tipi, katman[spdict['katman_adi']], katman[spdict['servis_var']], katman[spdict['servis_ogc_uyumlu']],
                                   katman[spdict['servis_atlas_uyumlu']], katman[spdict['servis_wms_var']], katman[spdict['servis_wfs_var']],
                                   katman[spdict['servis_wms_version']], katman[spdict['servis_wfs_version']], katman[spdict['servis_aciklama']],
                                   katman[spdict['servis_yayin_platformu']], katman[spdict['sp_olmamasi_personel']], katman[spdict['sp_olmamasi_mevzuat']],
                                   katman[spdict['sp_olmamasi_donanim']], katman[spdict['sp_olmamasi_diger']], katman[spdict['sp_olmamasi_aciklama']],
-                                  newKurum.adi, katman[spdict['tucbs_katmani']], katman[spdict['inspire_katmani']],katman[cvdict['objectid']], newKurum.k_adi)
+                                  katman[spdict['tucbs_katmani']], katman[spdict['inspire_katmani']],katman[cvdict['objectid']], newKurum.k_adi)
         try:
             counter += 1
             cvf.createExcelFile()

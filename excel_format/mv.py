@@ -4,9 +4,12 @@ from pgget import Connection
 cnn = Connection()
 
 class MetaveriFormu:
-    def __init__(self, katman_adi, mv_metaveri_var, mv_standart, mv_yayinlaniyor, mv_cbs_gm_paylasim_var, metaveri_aciklama,
-                adi, tucbs_katmani, inspire_katmani, k_adi, katman_durumu):
+    def __init__(self, bakanlik, adi, tipi, katman_adi, mv_metaveri_var, mv_standart, mv_yayinlaniyor, mv_cbs_gm_paylasim_var, metaveri_aciklama,
+                tucbs_katmani, inspire_katmani, k_adi, katman_durumu):
         
+        self.bakanlik = bakanlik
+        self.adi = adi.rstrip()
+        self.tipi = tipi
         self.katman_durumu = katman_durumu
         self.katman_adi = katman_adi.rstrip()
         self.k_adi = k_adi
@@ -21,7 +24,6 @@ class MetaveriFormu:
         self.mv_yayinlaniyor = mv_yayinlaniyor
         self.mv_cbs_gm_paylasim_var = mv_cbs_gm_paylasim_var
         
-        self.adi = adi.rstrip()
         if inspire_katmani is not None:
             self.inspire_katmani = cnn.getsinglekoddata('kod_inspire_tema', 'tema_adi', 'objectid='+str(inspire_katmani))
         else:
@@ -133,6 +135,15 @@ class MetaveriFormu:
                 'valign': 'vcenter'
             })
 
+            comment_format_l = workbook.add_format({
+                'font_size': 9,
+                'font_color': 'gray',
+                'italic': True,
+                'border': 1,
+                'align': 'left',
+                'valign': 'vcenter'
+            })
+
             # Baslik
             worksheet.insert_image('A1', r"logo\csb.jpg", {'x_offset': 70,'y_offset': 5,'x_scale': 1.25})
             worksheet.merge_range('A1:D4', '', merge_format)
@@ -208,6 +219,11 @@ class MetaveriFormu:
             worksheet.merge_range('E18:P18', u'(Proje Uzmanı Görevi)', comment_format)
             worksheet.merge_range('A19:D19', u'Tarih', text_format)
             worksheet.merge_range('E19:P19', u'(Analiz Tarihi)', comment_format)
+
+            if self.tipi == 1:
+                worksheet.merge_range('A20:P20', self.bakanlik + ' ' + self.adi + u' ile yapılan tespit çalışması sonucu oluşturulmuştur.', comment_format_l)
+            else:
+                worksheet.merge_range('A20:P20', u'Yerel Yönetimler olarak  ' + self.adi + u' ile yapılan tespit çalışması sonucu oluşturulmuştur.', comment_format_l)
 
             workbook.close()
         except BaseException as ex:
