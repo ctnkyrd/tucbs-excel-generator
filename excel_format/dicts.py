@@ -29,7 +29,7 @@ dict_veri_katmani = {
     'vk_kokeni'                             : 26,
     'vk_copleteness_fazlalik'               : 23,
     'vk_fazlalik_yeni'                      : 70,
-    'vk_eksizlik_yeni'                      : 64,
+    'veri_eksiklik_additional'              : 86,
     'vk_lc_kavramsal_tutarlilik'            : 27,
     'vk_kavramsal_yeni'                     : 71,
     'vk_tanim_kumesi_yeni'                  : 72,

@@ -89,7 +89,7 @@ for i in kurum:
                             katman[cvdict['veri_envanteri_aciklama']], katman[cvdict['tucbs_tema_harici']], katman[cvdict['inspire_katmani']],
                             katman[cvdict['inspire_uygunluk']], katman[cvdict['katman_aciklama']], katman[cvdict['tesim_alindi']], katman[cvdict['teslim_formati']], 
                             katman[cvdict['teslim_alinan_veri_sayisi']],  katman[cvdict['vk_amac']], katman[cvdict['vk_kullanim']], katman[cvdict['vk_kokeni']], 
-                            katman[cvdict['vk_copleteness_fazlalik']], katman[cvdict['vk_fazlalik_yeni']], katman[cvdict['vk_eksizlik_yeni']], 
+                            katman[cvdict['vk_copleteness_fazlalik']], katman[cvdict['vk_fazlalik_yeni']], katman[cvdict['veri_eksiklik_additional']], 
                             katman[cvdict['vk_lc_kavramsal_tutarlilik']], katman[cvdict['vk_kavramsal_yeni']], katman[cvdict['vk_tanim_kumesi_yeni']], 
                             katman[cvdict['vk_format_tutarlilik_yeni']], katman[cvdict['vk_topoloji_tutarlilik_yeni']], katman[cvdict['vk_pa_mutlak_dogruluk']], 
                             katman[cvdict['vk_konumsal_mutlak_dogruluk_yeni']], katman[cvdict['vk_konumsal_bagil_dogruluk_yeni']], katman[cvdict['vk_konumsal_raster_veri_konum_yeni']], 

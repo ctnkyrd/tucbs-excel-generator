@@ -6,8 +6,8 @@ cnn = Connection()
 class CografiVeriFormu:
     def __init__(self, bakanlik, adi, birim, tucbs_katmani, katman_adi, katman_durumu, tucbs_uygunluk, veri_turu, veri_tipi, veri_adedi, veri_formati, projeksiyon,
                     datum, olcek_duzey, veri_guncelleme_periyod, son_veri_guncelleme_tarih, veri_envanteri_aciklama, tucbs_tema_harici, inspire_katmani, inspire_uygunluk,
-                    katman_aciklama, tesim_alindi, teslim_formati, teslim_alinan_veri_sayisi, vk_amac,vk_kullanim,vk_kokeni,vk_copleteness_fazlalik,vk_fazlalik_yeni,
-                    vk_eksizlik_yeni,vk_lc_kavramsal_tutarlilik,vk_kavramsal_yeni,vk_tanim_kumesi_yeni,vk_format_tutarlilik_yeni,vk_topoloji_tutarlilik_yeni,
+                    katman_aciklama, tesim_alindi, teslim_formati, teslim_alinan_veri_sayisi, vk_amac,vk_kullanim,vk_kokeni,vk_copleteness_fazlalik, vk_fazlalik_yeni,
+                    veri_eksiklik_additional,vk_lc_kavramsal_tutarlilik,vk_kavramsal_yeni,vk_tanim_kumesi_yeni,vk_format_tutarlilik_yeni,vk_topoloji_tutarlilik_yeni,
                     vk_pa_mutlak_dogruluk,vk_konumsal_mutlak_dogruluk_yeni,vk_konumsal_bagil_dogruluk_yeni,vk_konumsal_raster_veri_konum_yeni,
                     vk_ta_ilgili_zamandaki_dogruluk,vk_zamansal_ilgili_yeni,vk_zamansal_tutarlilik_yeni,vk_zamansal_gecerlilik_yeni,vk_tema_siniflandirma_dogrulugu,
                     vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama, k_adi, geom_yeni):
@@ -89,10 +89,12 @@ class CografiVeriFormu:
             self.vk_fazlalik_yeni = cnn.getsinglekoddata('kod_ek_2_fazlalik', 'kod', 'objectid='+str(vk_fazlalik_yeni))
         else:
             self.vk_fazlalik_yeni = None
-        if vk_eksizlik_yeni is not None:
-            self.vk_eksizlik_yeni = cnn.getsinglekoddata('kod_ek_2_verinin_eksiksizligi', 'kod', 'objectid='+str(vk_eksizlik_yeni))
+        if veri_eksiklik_additional is not None:
+            self.veri_eksiklik_additional = veri_eksiklik_additional
+            #self.vk_eksizlik_yeni = cnn.getsinglekoddata('kod_ek_2_verinin_eksiksizligi', 'kod', 'objectid='+str(vk_eksizlik_yeni))
         else:
-            self.vk_eksizlik_yeni = None
+            self.veri_eksiklik_additional = veri_eksiklik_additional
+            #self.vk_eksizlik_yeni = None
         self.vk_lc_kavramsal_tutarlilik = vk_lc_kavramsal_tutarlilik
         if vk_kavramsal_yeni is not None:
             self.vk_kavramsal_yeni = cnn.getsinglekoddata('kod_ek_2_kavramsal_tutarlilik', 'kod', 'objectid='+str(vk_kavramsal_yeni))
@@ -546,8 +548,8 @@ class CografiVeriFormu:
             else:
                 ws.merge_range('H35:U35', u'', f_data_emty)
             
-            if self.vk_eksizlik_yeni is not None:
-                ws.merge_range('H36:U36', self.vk_eksizlik_yeni.decode('utf-8'), f_data_right)
+            if self.veri_eksiklik_additional is not None:
+                ws.merge_range('H36:U36', self.veri_eksiklik_additional.decode('utf-8'), f_data_right)
             else:
                 ws.merge_range('H36:U36', u'', f_data_emty)
 
