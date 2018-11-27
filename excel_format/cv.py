@@ -269,6 +269,8 @@ class CografiVeriFormu:
             merge_small_header2.set_font_size(11)
             merge_small_header2.set_bold()
             merge_small_header2.set_border()
+            merge_small_header2.set_text_wrap()
+            merge_small_header2.set_align('vcenter')
 
             f_data_right = wb.add_format()
             f_data_right.set_bold()
@@ -311,6 +313,7 @@ class CografiVeriFormu:
             f_data_emty = wb.add_format()
             f_data_emty.set_bg_color('#C5C5C5')
             f_data_emty.set_border()
+            f_data_emty.set_text_wrap()
 
             f_comment = wb.add_format()
             f_comment.set_border(),f_border_center
@@ -326,7 +329,6 @@ class CografiVeriFormu:
             f_comment_left.set_italic()
             f_comment_left.set_font_size(9)
             f_comment_left.set_valign('vcenter')
-            
 
             ws.insert_image('A1', r"logo\csb.jpg", {'x_offset': 20,'y_offset': 7,'x_scale': 1.6})
             ws.merge_range('A1:D4','',merge_header_format)
@@ -436,6 +438,8 @@ class CografiVeriFormu:
                 ws.write('A24', self.veri_envanteri_aciklama.decode('utf-8'), f_data_center)
                 if h < 15:
                     h = 15
+                else:
+                    h = 30
                 ws.set_row(23, h)
             else:
                 ws.merge_range('A24:U24', u'', merge_small_header2)
@@ -483,6 +487,8 @@ class CografiVeriFormu:
                 ws.merge_range('A19:U19', self.katman_aciklama.decode('utf-8'), f_data_left)
                 if h < 15:
                     h = 15
+                else:
+                    h = 30
                 ws.set_row(18, h)
             else:
                 ws.merge_range('A19:U19', u'')
@@ -524,24 +530,66 @@ class CografiVeriFormu:
 
 
             if self.vk_amac is not None:
+                h = 15*len(self.vk_amac)/100
                 ws.merge_range('H31:U31', self.vk_amac.decode('utf-8'), f_data_right)
+                if h < 15:
+                    h = 15
+                else:
+                    h = 30
+                ws.set_row(30, h)
             else:
-                ws.merge_range('H31:U31', u'', f_data_emty)
+                ws.merge_range('H31:U31', u'')
+                
+            #     ws.merge_range('H31:U31', self.vk_amac.decode('utf-8'), f_data_right)
+            # else:
+            #     ws.merge_range('H31:U31', u'', f_data_emty)
 
             if self.vk_kullanim is not None:
+            #     ws.merge_range('H32:U32', u'', f_data_right)
+            #     ws.write('H32',self.vk_kullanim.decode('utf-8'), f_data_right)
+            # else:
+            #     ws.merge_range('H32:U32', u'', f_data_emty)
+
+                h = 15*len(self.vk_kullanim)/100
                 ws.merge_range('H32:U32', self.vk_kullanim.decode('utf-8'), f_data_right)
+                if h < 15:
+                    h = 15
+                else:
+                    h = 30
+                ws.set_row(31, h)
             else:
-                ws.merge_range('H32:U32', u'', f_data_emty)
+                ws.merge_range('H32:U32', u'')
             
             if self.vk_kokeni is not None:
+                h = 15*len(self.vk_kokeni)/100
                 ws.merge_range('H33:U33', self.vk_kokeni.decode('utf-8'), f_data_right)
+                if h < 15:
+                    h = 15
+                else:
+                    h = 30
+                ws.set_row(32, h)
             else:
-                ws.merge_range('H33:U33', u'', f_data_emty)
+                ws.merge_range('H33:U33', u'')
+                
+                
+            #     ws.merge_range('H33:U33', self.vk_kokeni.decode('utf-8'), f_data_right)
+            # else:
+            #     ws.merge_range('H33:U33', u'', f_data_emty)
 
             if self.vk_copleteness_fazlalik is not None:
+                h = 15*len(self.vk_copleteness_fazlalik)/100
                 ws.merge_range('H34:U34', self.vk_copleteness_fazlalik.decode('utf-8'), f_data_right)
+                if h < 15:
+                    h = 15
+                else:
+                    h = 30
+                ws.set_row(33, h)
             else:
-                ws.merge_range('H34:U34', u'', f_data_emty)
+                ws.merge_range('H34:U34', u'')
+                
+            #     ws.merge_range('H34:U34', self.vk_copleteness_fazlalik.decode('utf-8'), f_data_right)
+            # else:
+            #     ws.merge_range('H34:U34', u'', f_data_emty)
             
             if self.vk_fazlalik_yeni is not None:
                 ws.merge_range('H35:U35', self.vk_fazlalik_yeni.decode('utf-8'), f_data_right)
@@ -579,9 +627,19 @@ class CografiVeriFormu:
                 ws.merge_range('H41:U41', u'', f_data_emty)
 
             if self.vk_pa_mutlak_dogruluk is not None:
+                h = 15*len(self.vk_pa_mutlak_dogruluk)/100
                 ws.merge_range('H42:U42', self.vk_pa_mutlak_dogruluk.decode('utf-8'), f_data_right)
+                if h < 15:
+                    h = 15
+                else:
+                    h = 30
+                ws.set_row(41, h)
             else:
-                ws.merge_range('H42:U42', u'', f_data_emty)
+                ws.merge_range('H42:U42', u'')                
+                
+            #     ws.merge_range('H42:U42', self.vk_pa_mutlak_dogruluk.decode('utf-8'), f_data_right)
+            # else:
+            #     ws.merge_range('H42:U42', u'', f_data_emty)
             
             if self.vk_konumsal_mutlak_dogruluk_yeni is not None:
                 ws.merge_range('H43:U43', self.vk_konumsal_mutlak_dogruluk_yeni.decode('utf-8'), f_data_right)
@@ -599,9 +657,19 @@ class CografiVeriFormu:
                 ws.merge_range('H45:U45', u'', f_data_emty)
 
             if self.vk_ta_ilgili_zamandaki_dogruluk is not None:
+                h = 15*len(self.vk_ta_ilgili_zamandaki_dogruluk)/100
                 ws.merge_range('H46:U46', self.vk_ta_ilgili_zamandaki_dogruluk.decode('utf-8'), f_data_right)
+                if h < 15:
+                    h = 15
+                else:
+                    h = 30
+                ws.set_row(45, h)
             else:
-                ws.merge_range('H46:U46', u'', f_data_emty)
+                ws.merge_range('H46:U46', u'')
+                
+            #     ws.merge_range('H46:U46', self.vk_ta_ilgili_zamandaki_dogruluk.decode('utf-8'), f_data_right)
+            # else:
+            #     ws.merge_range('H46:U46', u'', f_data_emty)
 
             if self.vk_zamansal_ilgili_yeni is not None:
                 ws.merge_range('H47:U47', self.vk_zamansal_ilgili_yeni.decode('utf-8'), f_data_right)
@@ -619,9 +687,19 @@ class CografiVeriFormu:
                 ws.merge_range('H49:U49', u'', f_data_emty)
 
             if self.vk_tema_siniflandirma_dogrulugu is not None:
+                h = 15*len(self.vk_tema_siniflandirma_dogrulugu)/100
                 ws.merge_range('H50:U50', self.vk_tema_siniflandirma_dogrulugu.decode('utf-8'), f_data_right)
+                if h < 15:
+                    h = 15
+                else:
+                    h = 30
+                ws.set_row(49, h)
             else:
-                ws.merge_range('H50:U50', u'', f_data_emty)
+                ws.merge_range('H50:U50', u'')
+                
+            #     ws.merge_range('H50:U50', self.vk_tema_siniflandirma_dogrulugu.decode('utf-8'), f_data_right)
+            # else:
+            #     ws.merge_range('H50:U50', u'', f_data_emty)
 
             if self.vk_tematik_siniflandirma_yeni is not None:
                 ws.merge_range('H51:U51', self.vk_tematik_siniflandirma_yeni.decode('utf-8'), f_data_right)

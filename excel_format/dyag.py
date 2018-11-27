@@ -160,7 +160,7 @@ class DonanimYazilimFormu:
                 worksheet.write_rich_string('B13', light_format, u'Hayır ( ', data_format_r, u'X', light_format, u' )',default_format)
 
             if self.sunucu_yetersiz_aciklama is not None:
-                worksheet.merge_range('C12:G13', self.sunucu_yetersiz_aciklama.decode('utf-8'), data_format_r)
+                worksheet.merge_range('C12:G13', self.sunucu_yetersiz_aciklama.decode('utf-8').rstrip(), data_format_r)
             else:
                 worksheet.merge_range('C12:G13', u'', data_format_r)
 

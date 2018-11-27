@@ -144,9 +144,9 @@ class MevzuatAnalizFormu:
 
             
             ws.merge_range('A1:A4', u'', main_header_format)
-            ws.merge_range('A5:F5', u'', merge_format)
-            ws.merge_range('A10:F10', u'', merge_format)
-            ws.merge_range('A12:F12', u'', main_header_format)
+            ws.merge_range('A5:F5', u'')
+            ws.merge_range('A10:F10', u'')
+            ws.merge_range('A12:F12', u'')
             ws.merge_range('F1:F4', u'', main_header_format)
 
 
@@ -232,9 +232,17 @@ class MevzuatAnalizFormu:
                 ws.set_row(last_starting_line-1, 42)
             
             ws.write('A'+str(last_starting_line), u'Coğrafi Veri Paylaşılamama Sebebi', sub_header_format)
-            ws.merge_range('B'+str(last_starting_line)+':F'+str(last_starting_line), u'', data_format_c)
+            ws.merge_range('B'+str(last_starting_line)+':F'+str(last_starting_line), u'', data_format_r)
             if self.veri_paylasmama_sebep is not None:
-                ws.write('B'+str(last_starting_line), self.veri_paylasmama_sebep.decode('utf-8'), data_format_c)
+                h = 15*len(self.veri_paylasmama_sebep)/100
+                ws.write('B'+str(last_starting_line), self.veri_paylasmama_sebep.decode('utf-8'), data_format_r)
+                if h < 15:
+                    h = 30
+                else:
+                    h = 40
+                ws.set_row(last_starting_line, h)
+                
+                #ws.write('B'+str(last_starting_line), self.veri_paylasmama_sebep.decode('utf-8'), data_format_r)
 
 
             wb.close()
