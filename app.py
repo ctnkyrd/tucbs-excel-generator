@@ -95,7 +95,8 @@ for i in kurum:
                             katman[cvdict['vk_konumsal_mutlak_dogruluk_yeni']], katman[cvdict['vk_konumsal_bagil_dogruluk_yeni']], katman[cvdict['vk_konumsal_raster_veri_konum_yeni']], 
                             katman[cvdict['vk_ta_ilgili_zamandaki_dogruluk']], katman[cvdict['vk_zamansal_ilgili_yeni']], katman[cvdict['vk_zamansal_tutarlilik_yeni']], 
                             katman[cvdict['vk_zamansal_gecerlilik_yeni']], katman[cvdict['vk_tema_siniflandirma_dogrulugu']], katman[cvdict['vk_tematik_siniflandirma_yeni']], 
-                            katman[cvdict['vk_tematik_nicel_yeni']], katman[cvdict['vk_tematik_nicel_olmayan_yeni']], katman[cvdict['vk_aciklama']], newKurum.k_adi, katman[cvdict['geom_yeni']])
+                            katman[cvdict['vk_tematik_nicel_yeni']], katman[cvdict['vk_tematik_nicel_olmayan_yeni']], katman[cvdict['vk_aciklama']], newKurum.k_adi,
+                            katman[cvdict['geom_yeni']], katman[cvdict['ve_duzey']])
         #pylint: disable-msg=too-many-arguments
         mvf = MetaveriFormu(newKurum.bakanlik, newKurum.adi, newKurum.tipi, katman[mvdict['katman_adi']],katman[mvdict['mv_metaveri_var']],katman[mvdict['mv_standart']],
                             katman[mvdict['mv_yayinlaniyor']],katman[mvdict['mv_cbs_gm_paylasim_var']],katman[mvdict['metaveri_aciklama']],

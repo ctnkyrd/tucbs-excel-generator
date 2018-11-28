@@ -10,7 +10,7 @@ class CografiVeriFormu:
                     veri_eksiklik_additional,vk_lc_kavramsal_tutarlilik,vk_kavramsal_yeni,vk_tanim_kumesi_yeni,vk_format_tutarlilik_yeni,vk_topoloji_tutarlilik_yeni,
                     vk_pa_mutlak_dogruluk,vk_konumsal_mutlak_dogruluk_yeni,vk_konumsal_bagil_dogruluk_yeni,vk_konumsal_raster_veri_konum_yeni,
                     vk_ta_ilgili_zamandaki_dogruluk,vk_zamansal_ilgili_yeni,vk_zamansal_tutarlilik_yeni,vk_zamansal_gecerlilik_yeni,vk_tema_siniflandirma_dogrulugu,
-                    vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama, k_adi, geom_yeni):
+                    vk_tematik_siniflandirma_yeni,vk_tematik_nicel_yeni,vk_tematik_nicel_olmayan_yeni, vk_aciklama, k_adi, geom_yeni, ve_duzey):
         self.bakanlik = bakanlik
         self.adi = adi.rstrip()
         self.birim = birim
@@ -19,7 +19,10 @@ class CografiVeriFormu:
             self.geom_yeni = geom_yeni
         else:
             self.geom_yeni = u''
-
+        if ve_duzey is not None:
+            self.ve_duzey = cnn.getsinglekoddata('kod_veri_envanteri_duzey', 'kod', 'objectid='+str(ve_duzey))
+        else:
+            self.ve_duzey = u''
         # tucbs temasinin kod tablosundan çekilmesi
         if tucbs_katmani is not None:
             self.tucbs_veri_temasi = cnn.getsinglekoddata('kod_tucbs_tema', 'tema_adi', 'objectid='+str(tucbs_katmani))
@@ -417,7 +420,7 @@ class CografiVeriFormu:
                 ws.merge_range('Q23:R23', u'', f_data_emty)
             # ölçek düzey çözünürlük
             if self.olcek_duzey is not None:
-                ws.write('S23',self.olcek_duzey.decode('utf-8'), f_data_center)
+                ws.write('S23',self.olcek_duzey.decode('utf-8')+'\n'+self.ve_duzey.decode('utf-8'), f_data_center)
             else:
                 ws.write('S23', u'', f_data_emty)
             # veri güncelleme

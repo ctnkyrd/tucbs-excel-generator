@@ -49,6 +49,7 @@ dict_veri_katmani = {
     'vk_tematik_nicel_olmayan_yeni'         : 83,
     'vk_aciklama'                           : 52,
     'geom_yeni'                             : 84,
+    've_duzey'                              : 85,
 }
 
 dict_metaveri_katmani = {
