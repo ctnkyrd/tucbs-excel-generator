@@ -419,8 +419,12 @@ class CografiVeriFormu:
             else:
                 ws.merge_range('Q23:R23', u'', f_data_emty)
             # ölçek düzey çözünürlük
-            if self.olcek_duzey is not None:
+            if self.olcek_duzey is not None and self.ve_duzey is not None:
                 ws.write('S23',self.olcek_duzey.decode('utf-8')+'\n'+self.ve_duzey.decode('utf-8'), f_data_center)
+            elif self.olcek_duzey is not None and self.ve_duzey is None:
+                ws.write('S23',self.olcek_duzey.decode('utf-8'), f_data_center)
+            elif self.olcek_duzey is None and self.ve_duzey is not None:
+                ws.write('S23',self.ve_duzey.decode('utf-8'), f_data_center)
             else:
                 ws.write('S23', u'', f_data_emty)
             # veri güncelleme
