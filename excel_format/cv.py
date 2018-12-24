@@ -361,7 +361,19 @@ class CografiVeriFormu:
             # fill form
             ws.merge_range('G7:U7', self.bakanlik, f_data_right)
             ws.merge_range('G8:U8', self.adi, f_data_right)
-            ws.merge_range('G9:U9', self.birim, f_data_right)
+            if self.birim is not None:
+                h = 15*len(self.birim)/100
+                ws.merge_range('G9:U9', self.birim, f_data_right)
+                if h < 15:
+                    h = 15
+                else:
+                    h = 30
+                ws.set_row(8, h)
+
+
+
+
+            # ws.merge_range('G9:U9', self.birim, f_data_right)
             
             ws.merge_range('G11:Q11', u'Veri Katman Adı', merge_small_header2)
             ws.merge_range('R11:S11', u'Veri Katman Durumu', merge_small_header)
@@ -414,8 +426,12 @@ class CografiVeriFormu:
             else:
                 ws.merge_range('N23:P23', u'', f_data_emty)
             # projeksyion datum
-            if self.projeksiyon is not None or self.datum is not None:
+            if self.projeksiyon is not None and self.datum is not None:
                 ws.merge_range('Q23:R23',self.projeksiyon.decode('utf-8') + " " + self.datum.decode('utf-8'), f_data_center)
+            elif self.projeksiyon is not None and self.datum is None:
+                ws.merge_range('Q23:R23',self.projeksiyon.decode('utf-8'), f_data_center)
+            elif self.projeksiyon is None and self.datum is not None:
+                ws.merge_range('Q23:R23',self.datum.decode('utf-8'), f_data_center)
             else:
                 ws.merge_range('Q23:R23', u'', f_data_emty)
             # ölçek düzey çözünürlük

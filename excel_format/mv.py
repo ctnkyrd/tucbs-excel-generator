@@ -69,7 +69,7 @@ class MetaveriFormu:
             worksheet.set_column('D:D', 11)
             worksheet.set_column('L:L', 7.57)
             worksheet.set_row(6, 3.75)
-            worksheet.set_row(12, 33)
+            worksheet.set_row(12, 50)
 
             # Formatlar
             merge_format = workbook.add_format({
@@ -180,6 +180,7 @@ class MetaveriFormu:
                     worksheet.merge_range('E10:P10', '', data_format_r)
                     worksheet.write_rich_string('E10', text_format, u'TUCBS (', data_format_c, u'X', merge_format, u') Ulusal Metaveri Profili( )', text_format_r)
                 elif self.mv_standart == 2:
+                    worksheet.merge_range('E10:P10', '', data_format_r)
                     worksheet.write_rich_string('E10', text_format, u'TUCBS( ) Ulusal Metaveri Profili(', data_format_c, u'X', merge_format, u')', text_format_r)
                 else:
                     worksheet.merge_range('E10:P10', u'TUCBS( ) Ulusal Metaveri Profili( )', text_format_r)

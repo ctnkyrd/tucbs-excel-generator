@@ -56,7 +56,7 @@ class ServisPaylasimFormu:
         elif self.servis_wms_var and self.servis_wfs_var:
             self.servis_turu = self.servis_turu + 'WMS + WFS'
         else:
-            self.servis_turu = ''
+            self.servis_turu = 'Diğer'
         if self.servis_wms_version is not None and self.servis_wfs_version is None:
             self.servis_version = self.servis_wms_version
         elif self.servis_wms_version is None and self.servis_wfs_version is not None:
@@ -125,7 +125,7 @@ class ServisPaylasimFormu:
             worksheet.set_row(21, 28.5)
             worksheet.set_row(22, 28.5)
             worksheet.set_row(23, 28.5)
-            worksheet.set_row(24, 28.5)
+            worksheet.set_row(24, 50)
             worksheet.set_row(26, 24)
 
             # Formatlar
